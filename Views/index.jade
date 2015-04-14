@@ -1,0 +1,17 @@
+extends layout
+
+block content
+	div.container-liquid.col-md-6.col-md-offset-3
+		h2 Entries
+		hr
+		div.entry(ng-repeat="entry in entries")
+			span.name {{ entry.name }}
+			span.remove.glyphicon.glyphicon-remove(data-ng-click="removeEntryFromList(entry.name)")
+			span.unit {{ entry.unit }}
+			input(type="number", ng-model="entry.value", data-ng-if="entry.formula == null").value
+			input(type="text", ng-model="entry.formula", data-ng-if="entry.formula != null", ng-change="evaluateFormula(entry)").formula
+			span(data-ng-if="entry.formula != null").value {{ entry.value }} =&nbsp;
+		button.btn.btn-warning#add(data-animation="am-fade-and-slide-top", data-template="addEntry", bs-modal="modal", container='body')
+			span.glyphicon.glyphicon-plus &nbsp;Add
+		hr
+		button.btn.btn-success.pull-right(data-ng-click="sendData()") Send
