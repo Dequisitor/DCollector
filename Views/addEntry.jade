@@ -1,0 +1,30 @@
+div.modal-dialog.addEntry(data-ng-controller="entryController")
+	div.modal-content
+		div.modal-header Add new data entry
+		div.modal-body
+			div.block
+				div.name
+					span Name
+					input(type="text", placeholder="Name of data", data-ng-model="name").pull-right
+				div.unit
+					span Unit
+					input(type="text", placeholder="Unit of data", data-ng-model="unit").pull-right
+			div.block
+				div.selection
+					div.btn-group(data-ng-model="valueType", data-bs-radio-group)
+						label.btn.btn-default
+							| Value&nbsp;
+							input.btn.btn-default(type="radio", value="0", name="valueType")
+						label.btn.btn-default
+							input.btn.btn-default(type="radio", value="1", name="valueType") 
+							| &nbsp;Aggregate
+				div.value(data-ng-hide="valueType != 0")
+					span Value
+					input(type="number", placeholder="Start value", data-ng-model="value").pull-right
+				div.aggregate(data-ng-hide="valueType != 1")
+					span Formula
+					input(type="text", placeholder="Formula", data-ng-model="formula").pull-right
+
+		div.modal-footer
+			button.btn.btn-warning.pull-right(ng-click="$hide()") Cancel
+			button.btn.btn-success.pull-right(ng-click="addEntryToList(); $hide()") Save
