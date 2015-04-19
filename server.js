@@ -50,15 +50,16 @@ app.get('/getLatest', function (req, res) {
 	fs.readFile('./Data/main.data', function (err, data) {
 		if (err) {
 			res.status(200).send(null);
-		}
+		} else {
+			var result = [];
+			var jsonData = JSON.parse("[]");
+			if (!!data && data.length > 2) {
+				jsonData = JSON.parse(data);
+				result = jsonData[jsonData.length-1].data;
+			}
 
-		var jsonData = JSON.parse("[]");
-		if (!!data && data.length > 2) {
-			jsonData = JSON.parse(data);
+			res.status(200).send(result);
 		}
-
-		var result = jsonData[jsonData.length-1].data;
-		res.status(200).send(result);
 	});
 });
 
