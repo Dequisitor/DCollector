@@ -1,14 +1,17 @@
 angular.module('myApp')
 .service('listService', function ($http) {
-	var list = null;
+	var list = [];
 
 	return {
 		getList: function(fn) {
-			if (!list) {
+			if (list.length == 0) {
 				$http.get('/getLatest').success(function (data) {
-					list = data;
-					fn(data);
-				});				
+					if (data.length > 0) {
+						list = data;
+					}
+
+					fn(list);
+				});
 			} else {
 				fn(list);
 			}

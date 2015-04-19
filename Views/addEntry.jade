@@ -10,8 +10,8 @@ div.modal-dialog.addEntry(data-ng-controller="entryController")
 					span Unit
 					input(type="text", placeholder="Unit of data", data-ng-model="unit").pull-right
 			div.block
-				div.selection
-					div.btn-group(data-ng-model="valueType", data-bs-radio-group)
+				div.selection.row
+					div.btn-group.pull-right(data-ng-model="valueType", data-bs-radio-group)
 						label.btn.btn-default
 							| Value&nbsp;
 							input.btn.btn-default(type="radio", value="0", name="valueType")

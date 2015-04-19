@@ -1,17 +1,36 @@
-var main = angular.module('myApp', ['mgcrea.ngStrap', 'ngCookies']);
+var main = angular.module('myApp', ['mgcrea.ngStrap', 'ngCookies', 'ngAnimate']);
 
-main.controller('mainController', function ($scope, listService, $http) {
+main.controller('mainController', function ($scope, listService, $http, $animate, $alert) {
 	listService.getList(function(list) {
 		$scope.entries = list;
+	});
+
+	$scope.sendOK = $alert({
+		title: 'Server',
+		content: 'Data saved successfully',
+		type: 'success',
+		container: '#alert-container',
+		duration: 2,
+		show: false
+	});
+
+	$scope.sendError = $alert({
+		title: 'Server',
+		content: 'Error sending data',
+		type: 'error',
+		placement: 'top',
+		container: '#alert-container',
+		duration: 2,
+		show: false
 	});
 
 	$scope.sendData = function () {
 		$http.post('/addData', $scope.entries).
 			success(function (data, status, header, config) {
-				console.log('successfully sent data');
+				$scope.sendOK.show();
 			}).
 			error(function (data, status, header, config) {
-				console.log('error sending data: '+data);
+				$scope.sendError.show();
 			});
 	};
 

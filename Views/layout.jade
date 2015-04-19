@@ -1,18 +1,25 @@
 html
 	head
 		meta(charset="UTF-8")
+		meta(name="viewport", content="width=device-width, initial-scale=1")
 		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.css")
 		link(rel="stylesheet", href="Content/main.css")
 		link(rel="stylesheet", href="Content/popup.css")
 
 	body(data-ng-app="myApp", data-ng-controller="mainController")
 		block content
+
+		footer 
+			div.container 
+				small JesusAndPals 2015
 	
 	script(src="https://code.jquery.com/jquery-2.1.3.js")
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.js")
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.2.1/angular-strap.js")
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.2.1/angular-strap.tpl.js")
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-animate.js")
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-cookies.js")
 	script(src="Scripts/Controllers/main.js")
 	script(src="Scripts/Controllers/entryController.js")
 	script(src="Scripts/Services/listService.js")
+	script(src="Scripts/Directives/directives.js")

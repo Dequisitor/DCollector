@@ -1,17 +1,29 @@
 extends layout
 
 block content
-	div.container-liquid.col-md-6.col-md-offset-3
-		h2 Entries
-		hr
-		div.entry(ng-repeat="entry in entries")
-			span.name {{ entry.name }}
-			span.remove.glyphicon.glyphicon-remove(data-ng-click="removeEntryFromList(entry.name)")
-			span.unit {{ entry.unit }}
-			input(type="number", ng-model="entry.value", data-ng-if="entry.formula == null").value
-			input(type="text", ng-model="entry.formula", data-ng-if="entry.formula != null", ng-change="evaluateFormula(entry)").formula
-			span(data-ng-if="entry.formula != null").value {{ entry.value }} =&nbsp;
-		button.btn.btn-warning#add(data-animation="am-fade-and-slide-top", data-template="addEntry", bs-modal="modal", container='body')
-			span.glyphicon.glyphicon-plus &nbsp;Add
-		hr
-		button.btn.btn-success.pull-right(data-ng-click="sendData()") Send
+	nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation", bs-navbar)
+		div.navbar-header
+			button#add.btn.navbar-toggle(data-animation="am-fade-and-slide-top", data-template="addEntry", data-container='body', bs-modal="modal")
+				span.glyphicon.glyphicon-plus
+			a.navbar-brand Data Collector
+
+	div.jumbotron
+		div.container#alert-container
+		div.container
+			div.entry(ng-repeat="entry in entries")
+				div.row(data-ng-if="entry.formula == null")
+					span.name {{ entry.name }}
+					span.remove.glyphicon.glyphicon-remove(data-ng-click="removeEntryFromList(entry.name)")
+					span.unit {{ entry.unit }}
+					input(type="number", ng-model="entry.value", data-ng-if="entry.formula == null", click-select).value
+				div.row(data-ng-if="entry.formula != null")
+					span.name {{ entry.name }}
+				div.row(data-ng-if="entry.formula != null")
+					span.remove.glyphicon.glyphicon-remove(data-ng-click="removeEntryFromList(entry.name)")
+					span.unit {{ entry.unit }}
+					input(type="text", ng-model="entry.formula").formula
+					span(data-ng-init='evaluateFormula(entry)').value {{ entry.value }} =&nbsp;
+					span(data-ng-click='evaluateFormula(entry)').pull-left
+						span.glyphicon.glyphicon-refresh
+			hr
+			button.btn.btn-success.pull-right(data-ng-click="sendData()") Send
