@@ -1,50 +1,59 @@
 angular.module('myApp')
 .service('listService', function ($http) {
-	var list = [];
+	availableFiles = [];
+	allEntries = [];
+	currentFile = "";
 
 	return {
-		getList: function(fn) {
-			if (list.length == 0) {
-				$http.get('/getLatest').success(function (data) {
-					if (data.length > 0) {
-						list = data;
-					}
+		getLatestEntries: function(fn) {
+			$http.get('/getLatest').success(function (data) {
+				if (data.length > 0) {
+					data.forEach(function (entry) {
+						availableFiles.push(entry.fileName);
+						allEntries[entry.fileName] = entry.data;
+					});
 
-					fn(list);
-				});
-			} else {
-				fn(list);
-			}
-		},
-		getEntry: function(name, fn) {
-			this.getList(function(list) {
-				for (var i=0; i<list.length && list[i].name.trim() != name.trim(); i++) {
-				};
-
-				if (i<list.length) {
-					fn(i);
+					fn(availableFiles, allEntries);
 				} else {
-					fn(null);
+					fn(null, null);
 				};
 			});
 		},
+		getEntry: function(entry, fn) {
+			var list = allEntries[currentFile].data; ///check needed
+			var index = list.indexOf(entry);
+
+			if (index != -1) {
+				fn(index);
+			} else {
+				fn(null);
+			};
+		},
 		addEntryToList: function(entry) {
-			this.getEntry(entry.name, function (index) {
+			this.getEntry(entry, function (index) {
 				if (index != null) {
 					console.log('entry already exists');
 				} else {
-					list.push(entry);
+					allEntries[currentFile].data.push(entry);
 				};
 			});
 		},
-		removeEntryFromList: function(name) {
-			this.getEntry(name, function (index) {
+		removeEntryFromList: function(entry) {
+			this.getEntry(entry, function (index) {
 				if (index != null) {
-					list.splice(index, 1);
+					allEntries[currentFile].data.splice(index, 1);
 				} else {
 					console.log('entry not found');
 				};
 			});
+		},
+		setCurrentFile: function(fileName, fn) {
+			if (allEntries[fileName]) {
+				currentFile = fileName;
+				fn(allEntries[fileName].data);
+			} else {
+				fn(null);
+			};
 		}
 	};
 });

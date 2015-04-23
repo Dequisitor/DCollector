@@ -3,27 +3,33 @@ extends layout
 block content
 	nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation", bs-navbar)
 		div.navbar-header
-			button#add.btn.navbar-toggle(data-animation="am-fade-and-slide-top", data-template="addEntry", data-container='body', bs-modal="modal")
+			button#add.btn.navbar-toggle(data-animation="am-fade-and-slide-top", data-template="addEntryPopup", data-container='body', bs-modal="modal")
 				span.glyphicon.glyphicon-plus
 			a.navbar-brand Data Collector
 
 	div.jumbotron
+		div.container
+			div.file-selector
+				button.btn.btn-default.pull-right(type="button", data-ng-model="selectedFile", data-bs-options="file for file in availableFiles", data-bs-select, ng-change="changeFile()")
+					| Action
+					span.caret
 		div.container#alert-container
 		div.container
 			div.entry(ng-repeat="entry in entries")
 				div.row(data-ng-if="entry.formula == null")
-					span.name {{ entry.name }}
-					span.remove.glyphicon.glyphicon-remove(data-ng-click="removeEntryFromList(entry.name)")
-					span.unit {{ entry.unit }}
-					input(type="number", ng-model="entry.value", data-ng-if="entry.formula == null", click-select).value
+					label.name {{ entry.name }}
+					div.contents
+						input(type="number", ng-model="entry.value", data-ng-if="entry.formula == null", click-select).value
+						label.unit {{ entry.unit }}
+						span.remove.glyphicon.glyphicon-remove(data-ng-click="removeEntryFromList(entry)")
+				div(data-ng-if="entry.formula != null")
+					div.name {{ entry.name }}
 				div.row(data-ng-if="entry.formula != null")
-					span.name {{ entry.name }}
-				div.row(data-ng-if="entry.formula != null")
-					span.remove.glyphicon.glyphicon-remove(data-ng-click="removeEntryFromList(entry.name)")
-					span.unit {{ entry.unit }}
-					input(type="text", ng-model="entry.formula").formula
-					span(data-ng-init='evaluateFormula(entry)').value {{ entry.value }} =&nbsp;
-					span(data-ng-click='evaluateFormula(entry)').pull-left
+					span(data-ng-click='evaluateFormula(entry)')
 						span.glyphicon.glyphicon-refresh
-			hr
-			button.btn.btn-success.pull-right(data-ng-click="sendData()") Send
+					div.contents
+						label(data-ng-init='evaluateFormula(entry)').value {{ entry.value }} =&nbsp;
+						input(type="text", ng-model="entry.formula").formula
+						label.unit {{ entry.unit }}
+						span.remove.glyphicon.glyphicon-remove(data-ng-click="removeEntryFromList(entry)")
+			button#send.btn.btn-success.pull-right(data-ng-click="sendData()") Send

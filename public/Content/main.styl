@@ -1,41 +1,53 @@
 body
 	padding 50px 0
+	*
+		box-sizing border-box
+		
+	.jumbotron
+		padding 0 0 10px 0
 	
 .entry
-	display block
 	padding 10px
 	
 	.row
 		margin 5px 0
-
-	input.value, input.formula
-		float right
-		text-align right
+		text-align left
+		display table-row
 		
-	span.value
-		display block
-		float right
-		text-align right
-		font-weight bold
+		> label
+			display table-cell
+			//width 100%
+		
+		.contents
+			width 100%
+			text-align right
+			display table-cell
 
-	.name
-		float left
+			.value
+				text-align right
+				font-weight bold
 
-	.unit
-		display block
-		float right
-		padding 0 5px
-		width 30px
+			.unit
+				padding 0 5px
+				width 30px
 
-	.remove
-		float right
-		cursor pointer
+			.remove
+				cursor pointer
 
-	.remove:hover
-		color red
+			.remove:hover
+				color red
+				
+			.value, .unit, .remove
+				display inline-block
 
+			input.value
+				text-align right
+				
+			input.formula
+				min-width 160px
+		
 .entry:nth-child(odd)
-	background-color #eee
+	background-color #ccc
 
 .entry:nth-child(even)
 	background-color #ddd
@@ -50,3 +62,16 @@ button#add
 	
 	.glyphicon
 		color white
+		
+button#send
+	cursor pointer
+	margin 10px 0 0 0
+		
+.file-selector
+	margin 10px
+	width 100%
+	text-align right
+
+	button
+		margin-right 10px
+		margin-bottom 10px

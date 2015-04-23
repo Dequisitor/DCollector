@@ -15,51 +15,75 @@ app.get('/', function(req, res) {
 	res.render('index');
 });
 
-app.get('/addEntry', function(req, res) {
+app.get('/addEntryPopup', function(req, res) {
 	res.render('addEntry');
 });
 
-app.post('/addData', function(req, res) {
-	fs.readFile('./Data/main.data', function (err, data) {
+app.post('/saveData', function(req, res) {
+	fs.readFile('./Data/' + req.body.file, function (err, data) {
 		if (err) {
 			res.status(500).send(err);
+		} else {
+			var jsonData = [];		
+			if (!!data && data.length > 2) {
+				jsonData = JSON.parse(data);
+			}
+
+			var newData = {
+				timeStamp: new Date(),
+				data: req.body.data
+			};
+			jsonData.push(newData);
+
+			console.log(newData);
+			console.log('--------------------');
+			console.log(jsonData);
+			console.log('--------------------');
+			console.log(req.body.file);
+
+			fs.writeFile('./Data/' + req.body.file, JSON.stringify(jsonData), function (err, data) {
+				if (err) {
+					res.status(500).send(err);
+				} else {
+					res.status(200).send(null);
+				}			
+			});
 		}
-
-		var jsonData = JSON.parse("[]");		
-		if (!!data && data.length > 2) {
-			jsonData = JSON.parse(data);
-		}
-
-		var newData = {
-			timeStamp: new Date(),
-			data: req.body
-		};
-		jsonData.push(newData);
-
-		fs.writeFile('./Data/main.data', JSON.stringify(jsonData), function (err, data) {
-			if (err) {
-				res.status(500).send(err);
-			} else {
-				res.sendStatus(200);
-			}			
-		});
 	});
 });
 
+var getLastEntryFromFile = function (fileName) {
+	var data = fs.readFileSync('./Data/' + fileName);
+	try {
+		json = JSON.parse(data);
+		if (json && typeof json === 'object' && json !== null) {					
+			return json[json.length -1];
+		} else {
+			console.log('not json data');
+			return null;
+		}
+	} catch (e) {
+		console.log('catched an exception: ', e);
+		return null;
+	};
+};
+
 app.get('/getLatest', function (req, res) {
-	fs.readFile('./Data/main.data', function (err, data) {
+	//get files list
+	fs.readdir('./Data', function (err, files) {
 		if (err) {
-			res.status(200).send(null);
+			res.status(500).send(null);
 		} else {
 			var result = [];
-			var jsonData = JSON.parse("[]");
-			if (!!data && data.length > 2) {
-				jsonData = JSON.parse(data);
-				result = jsonData[jsonData.length-1].data;
-			}
+			files.forEach(function (file) {
+				result.push({
+					fileName: file,
+					data: getLastEntryFromFile(file)
+				});
+			});
 
 			res.status(200).send(result);
-		}
+		};
 	});
 });
 
