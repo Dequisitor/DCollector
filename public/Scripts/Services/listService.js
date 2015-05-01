@@ -20,14 +20,18 @@ angular.module('myApp')
 			});
 		},
 		getEntry: function(entry, fn) {
-			var list = allEntries[currentFile].data; ///check needed
-			var index = list.indexOf(entry);
+			if (allEntries[currentFile]) {
+				var list = allEntries[currentFile].data;
+				var index = list.indexOf(entry);
 
-			if (index != -1) {
-				fn(index);
+				if (index != -1) {
+					fn(index);
+				} else {
+					fn(null);
+				}
 			} else {
 				fn(null);
-			};
+			}
 		},
 		addEntryToList: function(entry) {
 			this.getEntry(entry, function (index) {
@@ -48,8 +52,14 @@ angular.module('myApp')
 			});
 		},
 		setCurrentFile: function(fileName, fn) {
-			if (allEntries[fileName]) {
+			if (availableFiles.indexOf(fileName) != -1) {
 				currentFile = fileName;
+				
+				if (!allEntries[fileName]) {
+					allEntries[fileName] = {};
+					allEntries[fileName].data = [];
+				};
+				
 				fn(allEntries[fileName].data);
 			} else {
 				fn(null);
