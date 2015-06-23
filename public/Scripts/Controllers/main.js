@@ -54,7 +54,7 @@ main.controller('mainController', function ($scope, listService, $http, $animate
 			newFormula = newFormula.replace(requiredVariables[i], foundVariables[requiredVariables[i].replace(/\'/g, '')]);
 		};
 
-		entry.value = Math.round($scope.$eval(newFormula)* 10) / 10;
+		entry.value = Math.round($scope.$eval(newFormula)* 100) / 100;
 	};
 
 	$scope.changeFile = function () {
