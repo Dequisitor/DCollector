@@ -9,6 +9,7 @@ block content
 
 	div.jumbotron
 		div.container
+			a.btn.btn-warning.link.pull-left(href="/dprocess") Go to DProcessor
 			div.file-selector
 				button.btn.btn-default.pull-right(type="button", data-ng-model="selectedFile", data-bs-options="file for file in availableFiles", data-bs-select, ng-change="changeFile()")
 					| Action
@@ -23,7 +24,7 @@ block content
 						label.unit {{ entry.unit }}
 						span.remove.glyphicon.glyphicon-remove(data-ng-click="removeEntryFromList(entry)")
 				div(data-ng-if="entry.formula != null")
-					div.name {{ entry.name }}
+					label.name {{ entry.name }}
 				div.row(data-ng-if="entry.formula != null")
 					span(data-ng-click='evaluateFormula(entry)')
 						span.glyphicon.glyphicon-refresh

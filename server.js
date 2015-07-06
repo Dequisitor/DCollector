@@ -11,8 +11,14 @@ app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
 app.use(bodyParser());
 
+var dataPath = "./public/Data/";
+
 app.get('/', function(req, res) {
 	res.render('index');
+});
+
+app.get('/dprocess', function(req, res) {
+	res.render('dprocessor');
 });
 
 app.get('/addEntryPopup', function(req, res) {
@@ -20,7 +26,7 @@ app.get('/addEntryPopup', function(req, res) {
 });
 
 app.post('/saveData', function(req, res) {
-	fs.readFile('./Data/' + req.body.file, function (err, data) {
+	fs.readFile(dataPath + req.body.file, function (err, data) {
 		if (err) {
 			res.status(500).send(err);
 		} else {
@@ -35,13 +41,7 @@ app.post('/saveData', function(req, res) {
 			};
 			jsonData.push(newData);
 
-			console.log(newData);
-			console.log('--------------------');
-			console.log(jsonData);
-			console.log('--------------------');
-			console.log(req.body.file);
-
-			fs.writeFile('./Data/' + req.body.file, JSON.stringify(jsonData), function (err, data) {
+			fs.writeFile(dataPath + req.body.file, JSON.stringify(jsonData), function (err, data) {
 				if (err) {
 					res.status(500).send(err);
 				} else {
@@ -53,7 +53,7 @@ app.post('/saveData', function(req, res) {
 });
 
 var getLastEntryFromFile = function (fileName) {
-	var data = fs.readFileSync('./Data/' + fileName);
+	var data = fs.readFileSync(dataPath + fileName);
 	try {
 		json = JSON.parse(data);
 		if (json && typeof json === 'object' && json !== null) {					
@@ -70,7 +70,7 @@ var getLastEntryFromFile = function (fileName) {
 
 app.get('/getLatest', function (req, res) {
 	//get files list
-	fs.readdir('./Data', function (err, files) {
+	fs.readdir(dataPath, function (err, files) {
 		if (err) {
 			res.status(500).send(null);
 		} else {
