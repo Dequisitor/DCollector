@@ -1,4 +1,4 @@
-var main = angular.module('myApp', ['mgcrea.ngStrap', 'ngCookies', 'ngAnimate']);
+var main = angular.module('myApp', ['mgcrea.ngStrap', 'ngCookies', 'ngAnimate', "sharedServices"]);
 
 main.controller('mainController', function ($scope, listService, $http, $animate, $alert) {
 	

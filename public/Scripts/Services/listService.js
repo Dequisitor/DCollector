@@ -1,5 +1,6 @@
-angular.module('myApp')
-.service('listService', function ($http) {
+var services = angular.module('sharedServices', []);
+
+services.service('listService', function ($http) {
 	availableFiles = [];
 	allEntries = [];
 	currentFile = "";

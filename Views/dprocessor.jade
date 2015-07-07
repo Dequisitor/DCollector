@@ -1,17 +1,17 @@
-html
-	head
-		title DProcessor
-		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
-		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css")
-		link(rel="stylesheet", href="../Content/dprocessor.css")
-	body
+extends layout
+
+block content
+	body(data-ng-app="dprocess", data-ng-controller="dprocessController")#dprocess
 		nav.navbar.navbar-inverse.navbar-fixed-top(bs-navbar)
 			div.navbar-brand Data Processor
 		div.jumbotron
 			div.container
-				a.btn.btn-warning.link(href="/") Go to DCollector
+				a.btn.btn-warning.link.pull-left(href="/") Go to DCollector
+				div.file-selector
+					button.btn.btn-default.pull-right.dropdown-toggle(type="button", data-ng-model="selectedFile", data-bs-options="file for file in availableFiles", data-bs-select, ng-change="changeFile()", placeholder="Choose file...")
+						| Action
+						span.caret
 			div#chartContainer.container
-		script(src="https://code.jquery.com/jquery-2.1.4.min.js")
-		script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js")
-		script(src="http://code.highcharts.com/highcharts.js")
-		script(src="../Scripts/Controllers/dprocessor.js")
+		footer 
+			div.container 
+				small JesusAndPals 2015

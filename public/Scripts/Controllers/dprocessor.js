@@ -1,7 +1,13 @@
-$(function() {
-	console.log("started ...");
+var dprocess = angular.module("dprocess", ["mgcrea.ngStrap", "sharedServices"]);
 
-	var getYAxis = function (list, unit) {
+dprocess.controller("dprocessController", function ($scope, listService, $http, $alert) {
+	
+	//load entries
+	listService.getLatestEntries(function (files, entries) {
+		$scope.availableFiles = files;
+	});
+
+	$scope.getYAxis = function (list, unit) {
 		var current = -1;
 		for (var i=0; i<list.length; i++) {
 			if (list[i].title == unit.toLowerCase()) {
@@ -10,47 +16,51 @@ $(function() {
 		};
 
 		if (current == -1) { //add new unit to a new y axis
-			list.push({title: unit, opposite: list.length%2==1});
+			list.push({
+				title: unit, 
+				opposite: list.length%2==1
+			});
 			return list.length-1;
 		};
 
 		return current;
 	};
 
-	$.getJSON("../../Data/weight.json", function(json) {
-
-		var data = [];
-		var yAxis = [];
-		json.forEach(function (entry) {
-			for (var i=0; i<entry.data.length; i++) {
-				
-				//search for data slot
-				var current = -1;
-				for (var j=0; j<data.length; j++) {
-					if (data[j].name == entry.data[i].name) {
-						current = j;
-					}
-				}
-				if (current == -1) { //add if it is new entry
-					var axis = getYAxis(yAxis, entry.data[i].unit);
-					data.push({name: entry.data[i].name, yAxis: axis, data: []});
-					current = data.length -1;
-				}
-
-				//add data
-				var date = new Date(Date.parse(entry.timeStamp.replace(/T/g, " ").replace(/Z/g,"")));
-				var timeStamp = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
-				data[current].data.push([timeStamp, entry.data[i].value]);
-
+	$scope.getDataSlot = function (data, entry, yAxis) {
+		var current = -1;
+		for (var j=0; j<data.length; j++) {
+			if (data[j].name == entry.name) {
+				current = j;
 			}
-		});
+		}
+		if (current == -1) { //add if it is new entry
+			var axis = $scope.getYAxis(yAxis, entry.unit);
+			data.push({
+				name: entry.name, 
+				yAxis: axis,
+				tooltip: {
+					valueSuffix: entry.unit
+				},
+				data: []});
+			current = data.length -1;
+		}
 
-		$("#chartContainer").highcharts({
+		return current;
+	};
+
+	$scope.createChart = function (data, yAxis) {
+		angular.element("#chartContainer").highcharts({
+			chart: {
+				zoomType: "x"
+			},
 			tooltip: {
-				shared: true
+				shared: true,
+				crosshairs: true,
+				valueDecimals: 2
 			},
 			xAxis: {
 				type: "datetime",
+				minRange: 24*3600*1000,
 				title: {
 					text: "Time"
 				},
@@ -59,8 +69,31 @@ $(function() {
 			},
 			yAxis: yAxis,
 			series: data
-		});
+		});		
+	};
 
-	});
+	$scope.drawChart = function (fileName) {
+		$http.get("../../Data/" + fileName).success(function(json) {
+			var data = [];
+			var yAxis = [];
+			json.forEach(function (entry) {
+				for (var i=0; i<entry.data.length; i++) {
+					
+					//search for data slot
+					var current = $scope.getDataSlot(data, entry.data[i], yAxis);
+
+					//add data
+					var date = new Date(Date.parse(entry.timeStamp.replace(/T/g, " ").replace(/Z/g,"")));
+					var timeStamp = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
+					data[current].data.push([timeStamp, entry.data[i].value]);
+				}
+			});
+			$scope.createChart(data, yAxis);
+		});
+	};
+
+	$scope.changeFile = function () {
+		$scope.drawChart($scope.selectedFile);
+	};
 
 });
