@@ -1,2 +1,2 @@
-# DCollector-Atlas
+# DCollector
 Data collector web application with nodejs
