@@ -83,7 +83,7 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 					var current = $scope.getDataSlot(data, entry.data[i], yAxis);
 
 					//add data
-					var date = new Date(Date.parse(entry.timeStamp.replace(/T/g, " ").replace(/Z/g,"")));
+					var date = new Date(Date.parse(entry.timeStamp.replace(/Z/g,"")));
 					var timeStamp = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
 					data[current].data.push([timeStamp, entry.data[i].value]);
 				}
