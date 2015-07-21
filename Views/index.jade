@@ -21,7 +21,8 @@ block content
 					div.row(data-ng-if="entry.formula == null")
 						label.name {{ entry.name }}
 						div.contents
-							input(type="number", ng-model="entry.value", data-ng-if="entry.formula == null", click-select).value
+							input(data-ng-if="entry.unit != null", type="number", ng-model="entry.value", click-select).value
+							input(data-ng-if="entry.unit == null", type="text", ng-model="entry.value", click-select).value
 							label.unit {{ entry.unit }}
 							span.remove.glyphicon.glyphicon-remove(data-ng-click="removeEntryFromList(entry)")
 					div(data-ng-if="entry.formula != null")
@@ -34,7 +35,7 @@ block content
 							input(type="text", ng-model="entry.formula").formula
 							label.unit {{ entry.unit }}
 							span.remove.glyphicon.glyphicon-remove(data-ng-click="removeEntryFromList(entry)")
-				button#send.btn.btn-success.pull-right(data-ng-if="selectedFile" ,data-ng-click="sendData()") Send
+				button#send.btn.btn-success.pull-right(data-ng-if="selectedFile", data-ng-click="sendData()") Send
 		footer 
 			div.container 
 				small JesusAndPals 2015

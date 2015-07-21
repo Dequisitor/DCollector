@@ -78,14 +78,15 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 			var yAxis = [];
 			json.forEach(function (entry) {
 				for (var i=0; i<entry.data.length; i++) {
-					
-					//search for data slot
-					var current = $scope.getDataSlot(data, entry.data[i], yAxis);
+					if (!!entry.data[i].unit) {
+						//search for data slot
+						var current = $scope.getDataSlot(data, entry.data[i], yAxis);
 
-					//add data
-					var date = new Date(Date.parse(entry.timeStamp.replace(/Z/g,"")));
-					var timeStamp = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
-					data[current].data.push([timeStamp, entry.data[i].value]);
+						//add data
+						var date = new Date(Date.parse(entry.timeStamp.replace(/Z/g,"")));
+						var timeStamp = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
+						data[current].data.push([timeStamp, entry.data[i].value]);
+					}
 				}
 			});
 			$scope.createChart(data, yAxis);
