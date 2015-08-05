@@ -17,7 +17,10 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 
 		if (current == -1) { //add new unit to a new y axis
 			list.push({
-				title: unit, 
+               title: unit,
+               labels: {
+                        format: "{value} " + unit
+                },
 				opposite: list.length%2==1
 			});
 			return list.length-1;
@@ -36,6 +39,7 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 		if (current == -1) { //add if it is new entry
 			var axis = $scope.getYAxis(yAxis, entry.unit);
 			data.push({
+                type: "spline",
 				name: entry.name, 
 				yAxis: axis,
 				tooltip: {
@@ -48,28 +52,32 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 		return current;
 	};
 
-	$scope.createChart = function (data, yAxis) {
-		angular.element("#chartContainer").highcharts({
-			chart: {
-				zoomType: "x"
-			},
-			tooltip: {
-				shared: true,
-				crosshairs: true,
-				valueDecimals: 2
-			},
-			xAxis: {
-				type: "datetime",
-				minRange: 24*3600*1000,
-				title: {
-					text: "Time"
-				},
-				tickInterval: 7*24*3600*1000,
-				gridLineWidth: 1
-			},
-			yAxis: yAxis,
-			series: data
-		});		
+	$scope.createChart = function (data, yAxis, fileName) {
+        angular.element("#chartContainer").highcharts({
+            chart: {
+                zoomType: "x",
+                plotBorderWidth: 1
+            },
+            title: {
+                text: fileName
+            },
+            tooltip: {
+                shared: true,
+                crosshairs: true,
+                valueDecimals: 2
+            },
+            xAxis: {
+                type: "datetime",
+                minRange: 24*3600*1000,
+                title: {
+                    text: "Time"
+                },
+                tickInterval: 7*24*3600*1000,
+                gridLineWidth: 1
+            },
+            yAxis: yAxis,
+            series: data
+        });		
 	};
 
 	$scope.drawChart = function (fileName) {
@@ -84,12 +92,12 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 
 						//add data
 						var date = new Date(Date.parse(entry.timeStamp.replace(/Z/g,"")));
-						var timeStamp = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
+						var timeStamp = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
 						data[current].data.push([timeStamp, entry.data[i].value]);
 					}
 				}
 			});
-			$scope.createChart(data, yAxis);
+			$scope.createChart(data, yAxis, fileName);
 		});
 	};
 
