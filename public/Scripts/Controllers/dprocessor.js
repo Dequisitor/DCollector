@@ -4,46 +4,39 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 	
 	$scope.chart = null;
 	$scope.data = null;
-	$scope.yAxis = null;
 
 	//load entries
 	listService.getLatestEntries(function (files, entries) {
 		$scope.availableFiles = files;
 	});
 
-	$scope.getYAxis = function (unit) {
-		var current = -1;
-		for (var i=0; i<$scope.yAxis.length; i++) {
-			if ($scope.yAxis[i].title == unit.toLowerCase()) {
-				current = i;
-			}
-		};
-
-		if (current == -1) { //add new unit to a new y axis
-			$scope.yAxis.push({ 
-				title: unit
-			});
-			return $scope.yAxis.length-1;
-		};
-
-		return current;
-	};
-
-	$scope.filterAxis = function() {
+	$scope.getYAxis = function (data) {
 		var result = [];
 
-		$scope.yAxis.forEach(function (axis) {
-			result.push({
-				title: axis.title,
-				labels: {
-						format: "{value} " + axis.title
-				},
-				opposite: result.length%2==1
-			});
-		});
+		for (var i=0; i<data.length; i++) {
+			var current = -1;
+			for (var j=0; j<result.length; j++) {
+				if (result[j].title == data[i].yAxis) {
+					current = j;
+				}
+			}
+
+			if (current == -1) { //create new axis
+				result.push({
+					title: data[i].yAxis,
+					opposite: result.length%2==1,
+					labels: {
+						format: "{value} " + data[i].yAxis
+					}
+				});
+				current = result.length -1;
+			}
+
+			data[i].yAxis = current;
+		}
 
 		return result;
-	}
+	};
 
 	$scope.getDataSlot = function (entry) {
 		var current = -1;
@@ -53,7 +46,6 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 			}
 		}
 		if (current == -1) { //add if it is new entry
-			var axis = $scope.getYAxis(entry.unit); //just to fill the yAxis array
 			$scope.data.push({
 				name: entry.name, 
 				visible: true,
@@ -78,7 +70,7 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 			if (data.visible) {
 				result.push({
 					name: data.name, 
-					yAxis: $scope.getYAxis(data.yAxis),
+					yAxis: data.yAxis,
 					data: data.data,
 					type: data.type,
 					color: data.color,
@@ -91,50 +83,41 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 		return result;
 	};
 
-	$scope.toggleSeries = function () {
-
-	};
-
-	$scope.createChart = function (fileName) {
-		//if (!$scope.chart) {
-			angular.element("#chartContainer").highcharts({
-				chart: {
-					zoomType: "x",
-					plotBorderWidth: 1
-				},
-				legend: {
-					enabled: false
-				},
+	$scope.createChart = function () {
+		var data = $scope.filterData();
+		var yAxis = $scope.getYAxis(data);
+		angular.element("#chartContainer").highcharts({
+			chart: {
+				zoomType: "x",
+				plotBorderWidth: 1
+			},
+			legend: {
+				enabled: false
+			},
+			title: {
+				text: $scope.selectedFile
+			},
+			tooltip: {
+				shared: true,
+				crosshairs: true,
+				valueDecimals: 2
+			},
+			xAxis: {
+				type: "datetime",
+				minRange: 24*3600*1000,
 				title: {
-					text: fileName
+					text: "Time"
 				},
-				tooltip: {
-					shared: true,
-					crosshairs: true,
-					valueDecimals: 2
-				},
-				xAxis: {
-					type: "datetime",
-					minRange: 24*3600*1000,
-					title: {
-						text: "Time"
-					},
-					tickInterval: 7*24*3600*1000,
-					gridLineWidth: 1
-				},
-				yAxis: $scope.filterAxis(),
-				series: $scope.filterData()
-			});
-			//$scope.chart = angular.element("#chartContainer").highcharts();
-		//} else {
-			//$scope.chart.series.data = $scope.filterData();
-			//$scope.chart.yAxis = $scope.filterAxis();
-			//$scope.chart.redraw();
-		//}
+				tickInterval: 7*24*3600*1000,
+				gridLineWidth: 1
+			},
+			yAxis: yAxis,
+			series: data
+		});
 	};
 
-	$scope.drawChart = function (fileName) {
-		$http.get("../../Data/" + fileName).success(function(json) {
+	$scope.drawChart = function () {
+		$http.get("../../Data/" + $scope.selectedFile).success(function(json) {
 			$scope.data = [];
 			$scope.yAxis = [];
 			json.forEach(function (entry) {
@@ -150,7 +133,7 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 					}
 				}
 			});
-			$scope.createChart(fileName);
+			$scope.createChart($scope.selectedFile);
 		});
 	};
 
