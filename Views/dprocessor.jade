@@ -17,7 +17,7 @@ block content
 					div.axispanel
 						input(type="checkbox", data-ng-model="serie.visible", data-ng-change="createChart()") 
 						b(style="color: {{ serie.color }}") &nbsp;{{ serie.name }}
-						div.options(ng-model="serie.type", bs-radio-group)
+						div.options(ng-model="serie.type", bs-radio-group, ng-if="serie.visible")
 							input(type="radio", value="line", ng-model="serie.type", ng-change="redrawChart($index, serie.type)")
 							&nbsp;Line
 							br
