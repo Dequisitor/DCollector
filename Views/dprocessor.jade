@@ -18,19 +18,19 @@ block content
 						input(type="checkbox", data-ng-model="serie.visible", data-ng-change="createChart()") 
 						b(style="color: {{ serie.color }}") &nbsp;{{ serie.name }}
 						div.options(ng-model="serie.type", bs-radio-group)
-							input(type="radio", value="line")
+							input(type="radio", value="line", ng-model="serie.type", ng-change="redrawChart($index, serie.type)")
 							&nbsp;Line
 							br
-							input(type="radio", value="spline")
+							input(type="radio", value="spline", ng-model="serie.type", ng-change="redrawChart($index, serie.type)")
 							&nbsp;Spline
 							br
-							input(type="radio", value="areaspline")
+							input(type="radio", value="areaspline", ng-model="serie.type", ng-change="redrawChart($index, serie.type)")
 							&nbsp;Area Spline
 							br
-							input(type="radio", value="bar")
+							input(disabled="disabled", type="radio", value="bar", ng-model="serie.type", ng-change="redrawChart($index, serie.type)")
 							&nbsp;Bar
 							br
-							input(type="radio", value="waterfall")
+							input(disabled="disabled", type="radio", value="waterfall", ng-model="serie.type", ng-change="redrawChart($index, serie.type)")
 							&nbsp;Waterfall
 							br
 		footer 

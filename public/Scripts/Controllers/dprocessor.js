@@ -141,4 +141,18 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 		$scope.drawChart($scope.selectedFile);
 	};
 
+	$scope.redrawChart = function(pos, type) {
+		var index = pos;
+		for (var i=0; i<pos; i++) {
+			if (!$scope.data[i].visible) {
+				index--;
+			}
+		}
+
+		var chart = angular.element("#chartContainer").highcharts();
+		chart.series[index].update({
+			type: type
+		});
+	};
+
 });
