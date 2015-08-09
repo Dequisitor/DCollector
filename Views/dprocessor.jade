@@ -12,7 +12,7 @@ block content
 						| Action
 						span.caret
 			div#chartContainer.container
-			div.axiscontainer.container
+			div.axiscontainer.container(data-ng-if="selectedFile != null")
 				span(ng-repeat="serie in data").axis.col-sm-4.col-xs-6
 					div.axispanel
 						input(type="checkbox", data-ng-model="serie.visible", data-ng-change="createChart()") 
