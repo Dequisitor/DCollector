@@ -1,0 +1,41 @@
+<div data-ng-controller="entryController" class="modal-dialog addEntry">
+  <div class="modal-content">
+    <div class="modal-header">Add new data entry</div>
+    <div class="modal-body">
+      <div class="block">
+        <div class="selection row">
+          <div data-ng-model="valueType" data-bs-radio-group="data-bs-radio-group" class="btn-group pull-right">
+            <label class="btn btn-default">Value&nbsp;
+              <input type="radio" value="0" name="valueType" class="btn btn-default"/>
+            </label>
+            <label class="btn btn-default">
+              <input type="radio" value="1" name="valueType" class="btn btn-default"/>&nbsp;String&nbsp;
+            </label>
+            <label class="btn btn-default">
+              <input type="radio" value="2" name="valueType" class="btn btn-default"/>&nbsp;Aggregate
+            </label>
+          </div>
+        </div>
+        <div class="name"><span>Name</span>
+          <input type="text" placeholder="Name of data" data-ng-model="name" class="pull-right"/>
+        </div>
+        <div data-ng-hide="valueType == 1" class="unit"><span>Unit</span>
+          <input type="text" placeholder="Unit of data" data-ng-model="unit" class="pull-right"/>
+        </div>
+        <div data-ng-hide="valueType != 0" class="value"><span>Value</span>
+          <input type="number" placeholder="Start value" data-ng-model="value" class="pull-right"/>
+        </div>
+        <div data-ng-hide="valueType != 1" class="value"><span>Value</span>
+          <input type="text" placeholder="Start value" data-ng-model="value" class="pull-right"/>
+        </div>
+        <div data-ng-hide="valueType != 2" class="aggregate"><span>Formula</span>
+          <input type="text" placeholder="Formula" data-ng-model="formula" class="pull-right"/>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button ng-click="addEntryToList(); $hide()" class="btn btn-success pull-right">Save</button>
+      <button ng-click="$hide()" class="btn btn-warning pull-right">Cancel</button>
+    </div>
+  </div>
+</div>

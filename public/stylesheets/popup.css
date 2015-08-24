@@ -1,0 +1,25 @@
+.modal-dialog.addEntry {
+    z-index: 10000;
+    position: fixed;
+    top: 20;
+    left: 0;
+    right: 0;
+}
+.modal-dialog.addEntry .modal-header {
+    font-weight: bold;
+}
+.modal-dialog.addEntry .modal-content .modal-body .block {
+    margin-top: 10px;
+}
+.modal-dialog.addEntry .modal-content .modal-body .block .name, 
+.modal-dialog.addEntry .modal-content .modal-body .block .unit, 
+.modal-dialog.addEntry .modal-content .modal-body .block .value, 
+.modal-dialog.addEntry .modal-content .modal-body .block .aggregate {
+    padding: 5px 0;
+}	
+.modal-dialog.addEntry .modal-content .modal-body .block .selection .btn-group {
+    padding: 0 15px;
+}
+.modal-dialog.addEntry .modal-footer button {
+    margin: 10px;
+}

@@ -1,0 +1,123 @@
+body {
+    background-color:: gray;;
+    padding: 50px 0;
+}
+body * {
+    box-sizing: border-box;
+}	
+body .jumbotron {
+    padding: 0 0 10px 0;
+}
+footer {
+    margin-top: -30px;
+    padding: 5px 0;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    font-style: itallic;
+}	
+.entry {
+    padding: 10px;
+}	
+.entry .row {
+    margin: 5px 0;
+    text-align: left;
+    display: table-row;
+}	
+.entry .row >label {
+    display: table-cell;
+    //width: 100%;
+}	
+.entry .row .contents {
+    width: 100%;
+    text-align: right;
+    display: table-cell;
+}
+.entry .row .contents .value {
+    text-align: right;
+    font-weight: bold;
+}
+.entry .row .contents .unit {
+    padding: 0 5px;
+    width: 30px;
+}
+.entry .row .contents .remove {
+    cursor: pointer;
+}
+.entry .row .contents .remove:hover {
+    color: red;
+}		
+.entry .row .contents .value, 
+.entry .row .contents .unit, 
+.entry .row .contents .remove {
+    display: inline-block;
+}
+.entry .row .contents input.value {
+    text-align: right;
+}	
+.entry .row .contents input.formula {
+    min-width: 160px;
+}	
+.entry:nth-child(odd) {
+    background-color: #ccc;
+}
+.entry:nth-child(even) {
+    background-color: #ddd;
+}
+.entry:hover {
+    background-color: #5588dd;
+}
+
+button#add {
+    cursor: pointer;
+    display: block;
+}	
+button#add .glyphicon {
+    color: white;
+}		
+button#send {
+    cursor: pointer;
+    margin: 10px 0 0 0;
+}	
+.file-selector {
+    margin: 10px;
+    width: 100%;
+    text-align: right;
+}
+.file-selector button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.navbar-header {
+    float: none;
+}
+.btn.link {
+    margin: 10px 0px;
+    font-weight: bold;
+}	
+.axiscontainer {
+    margin-top: 20px;
+}
+.axiscontainer .axis {
+}		
+.axiscontainer .axis .axispanel {
+    background-color: white;
+    box-shadow: 2px 2px 5px 5px;
+    border: 1px solid white;
+    margin: 10px;
+    padding: 10px;
+    min-width: 120px;
+    //height: 200px;
+}		
+.axiscontainer .axis .axispanel .options {
+    margin-top: 10px;
+    border-top: 1px solid black;
+    padding: 10px;
+}	
+.voffset1 {	margin-top: 2px; }
+.voffset2 {	margin-top: 5px; }
+.voffset3 {	margin-top: 10px; }
+.voffset4 {	margin-top: 15px; }
+.voffset5 {	margin-top: 30px; }
+.voffset6 {	margin-top: 40px; }
+.voffset7 {	margin-top: 60px; }
