@@ -4,8 +4,8 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 	
 	$scope.chart = null;
 	$scope.data = null;
-	$scope.minX = 0;
-	$scope.maxX = 0;
+	$scope.minX = null;
+	$scope.maxX = null;
 
 	//load entries
 	listService.getLatestEntries(function (files, entries) {
@@ -17,6 +17,8 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 		var data = $scope.data;
 
 		//destroy previous charts
+		$scope.minX = null;
+		$scope.maxX = null;
 		for (var i=Highcharts.charts.length-1; i>=0; i--) {
 			if (!Highcharts.charts[i]) {
 				continue;
