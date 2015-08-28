@@ -4,35 +4,13 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 	
 	$scope.chart = null;
 	$scope.data = null;
-	$scope.avgData = null;
+	$scope.minX = 0;
+	$scope.maxX = 0;
 
 	//load entries
 	listService.getLatestEntries(function (files, entries) {
 		$scope.availableFiles = files;
 	});
-
-	$scope.filterData = function (input) {
-		var result = [];
-
-		input.forEach(function (data) {
-			if (data.visible) {
-				result.push({
-					name: data.name, 
-					yAxis: data.yAxis,
-					data: data.data,
-					type: data.type,
-					color: data.color,
-					fillOpacity: 0.3,
-					tooltip: data.tooltip,
-					dashStyle: data.dashStyle ? data.dashStyle : "Solid",
-					negativeColor: data.negativeColor ? data.negativeColor : null,
-					lineWidth: data.lineWidth ? data.lineWidth : 2
-				});
-			};
-		});
-
-		return result;
-	};
 
 	$scope.createChart = function () {
 		//var data = $scope.filterData($scope.data);
@@ -62,7 +40,7 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 					enabled: false
 				},
 				title: {
-					text: entry.name + "[" + entry.tooltip.valueSuffix + "]",
+					text: entry.name + " [" + entry.tooltip.valueSuffix + "]",
 					align: "left",
 					style: {
 						fontSize: '14px'
@@ -71,14 +49,6 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 				plotOptions: {
 					series: {
 						allowPointSelect: true,
-						marker: {
-							enabled: false
-						},
-						states: {
-							hover: {
-								lineWidthPlus: 0
-							}
-						},
 						point: {
 							events: {
 								mouseOver: function (e) {
@@ -102,7 +72,12 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 												value: series.points[j].x,
 												zIndex: 3
 											});
-											series.data[j].select();
+											var old = chart.hoverPoint;
+											if (old) {
+												old.setState();
+											}
+											series.data[j].setState("hover");
+											chart.hoverPoint = series.data[j];
 										}
 									}
 								}
@@ -111,7 +86,6 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 					}
 				},
 				tooltip: {
-					//crosshairs: true,
 					valueDecimals: 2,
 					positioner: function () {
 						return { x: this.chart.chartWidth - this.label.width, y: -1 };
@@ -124,7 +98,14 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 					type: "datetime",
 					minRange: 24*3600*1000,
 					tickInterval: 7*24*3600*1000,
-					gridLineWidth: 1
+					gridLineWidth: 1,
+					min: $scope.minX,
+					max: $scope.maxX,
+					dateTimeLabelFormats: {
+						day: "%d.%m",
+						week: "%d.%m",
+						month: "%d.%m"
+					}
 				},
 				yAxis: [{
 					title: {
@@ -149,7 +130,7 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 				visible: true, 
 				data: [],
 				type: "spline",
-				lineWidth: 1,
+				lineWidth: 2,
 				color: Highcharts.getOptions().colors[$scope.data.length],
 				tooltip: {
 					valueSuffix: entry.unit
@@ -173,6 +154,15 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 						var date = new Date(Date.parse(entry.timeStamp.replace(/Z/g,"")));
 						var timeStamp = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
 						$scope.data[current].data.push([timeStamp, entry.data[i].value]);
+
+						//get min/max on the X axis
+						if ((i == 0) && (!$scope.minX || $scope.minX > timeStamp)) { //since we store everything chronologically, we only need to check the first entries in all data fields
+							$scope.minX = timeStamp;
+						}
+						if ((i == entry.data.length-1) && (!$scope.maxX || $scope.maxX < timeStamp)) { //likewise, we only check the last one
+							$scope.maxX = timeStamp;
+						}
+
 					}
 				}
 			});
