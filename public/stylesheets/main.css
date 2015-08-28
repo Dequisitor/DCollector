@@ -1,12 +1,14 @@
 body {
     background-color:: gray;;
-    padding: 50px 0;
 }
 body * {
     box-sizing: border-box;
 }	
 body .jumbotron {
     padding: 0 0 10px 0;
+}
+.navbar {
+	margin-bottom: 0px;
 }
 footer {
     margin-top: -30px;
@@ -95,6 +97,10 @@ button#send {
     margin: 10px 0px;
     font-weight: bold;
 }	
+.chart {
+	height: 180px;
+	margin-bottom: 10px;
+}
 .axiscontainer {
     margin-top: 20px;
 }

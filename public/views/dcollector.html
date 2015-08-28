@@ -8,7 +8,7 @@
         <link rel="icon" type="image/png" href="../content/images/favicon.png"/>
     </head>
     <body data-ng-app="myApp" data-ng-controller="mainController" id="dcollector">
-        <nav role="navigation" bs-navbar="bs-navbar" class="navbar navbar-inverse navbar-fixed-top">
+        <nav role="navigation" bs-navbar="bs-navbar" class="navbar navbar-inverse">
         <div class="navbar-header">
             <button id="add" data-animation="am-fade-and-slide-top" data-template="addEntry.html" data-container="body" bs-modal="modal" class="btn navbar-toggle">
                 <span class="glyphicon glyphicon-plus"></span>
@@ -19,7 +19,7 @@
         <div class="jumbotron">
             <div class="container"><a href="/dprocessor" class="btn btn-warning link pull-left">Go to DProcessor</a>
                 <div class="file-selector">
-                    <button type="button" data-ng-model="selectedFile" data-bs-options="file for file in availableFiles" data-bs-select="data-bs-select" ng-change="changeFile()" placeholder="Choose file..." class="btn btn-default pull-right dropdown-toggle">Action<span class="caret"></span></button>
+                    <button type="button" data-ng-model="selectedFile" data-bs-options="file for file in availableFiles" data-bs-select="" ng-change="changeFile()" placeholder="Choose file..." class="btn btn-default pull-right">Action<span class="caret"></span></button>
                 </div>
             </div>
             <div id="alert-container" class="container"></div>
