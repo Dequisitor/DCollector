@@ -17,8 +17,6 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 		var data = $scope.data;
 
 		//destroy previous charts
-		$scope.minX = null;
-		$scope.maxX = null;
 		for (var i=Highcharts.charts.length-1; i>=0; i--) {
 			if (!Highcharts.charts[i]) {
 				continue;
@@ -145,6 +143,8 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 
 	$scope.drawChart = function () {
 		$http.get("/dprocessor/data/" + $scope.selectedFile).success(function(json) {
+			$scope.minX = null;
+			$scope.maxX = null;
 			$scope.data = [];
 			json.forEach(function (entry) {
 				for (var i=0; i<entry.data.length; i++) {
