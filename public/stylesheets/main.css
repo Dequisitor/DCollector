@@ -7,6 +7,46 @@ body * {
 body .jumbotron {
     padding: 0 0 10px 0;
 }
+.chartContainer {
+	position: relative;
+	-webkit-transition: height 1s;
+}
+.chart-block {
+	background-color: #fff;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	margin: 0 10px 10px 10px;
+	border: 1px solid #4072b4;
+	border-radius: 7px 7px 0 0;
+	-webkit-transition: top 1s, height 1s;
+}
+.chart-block.collapsed {
+	height: 25px;
+	//-webkit-transition: height 1s;
+}
+.chart {
+	position: relative;
+	height: 220px;
+}
+.chart-header {
+	position: relative;
+	background-color: #4072b4;
+	border-radius: 5px 5px 0 0;
+	height: 24px;
+	padding: 5px 10px;
+}
+.chart-header span.glyphicon {
+	color: white;
+}
+.chart-header .navigationBox {
+	position: absolute;
+	right: 10px;
+	top: 4px;
+}
+.chart-header .navigationBox .glyphicon {
+	margin-left: 10px;
+}
 .navbar {
 	margin-bottom: 0px;
 }
@@ -97,10 +137,7 @@ button#send {
     margin: 10px 0px;
     font-weight: bold;
 }	
-.chart {
-	height: 220px;
-	margin-bottom: 10px;
-}
+
 .axiscontainer {
     margin-top: 20px;
 }

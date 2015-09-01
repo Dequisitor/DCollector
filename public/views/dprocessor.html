@@ -17,21 +17,10 @@
                     <button type="button" data-ng-model="selectedFile" data-bs-options="file for file in availableFiles" data-bs-select="data-bs-select" ng-change="changeFile()" placeholder="Choose file..." class="btn btn-default pull-right dropdown-toggle">Action<span class="caret"></span></button>
                 </div>
             </div>
-            <div id="chartContainer" class="container" data-ng-mousemove="synchronizeChartPosition($event)"></div>
-<!--            <div data-ng-if="selectedFile != null" class="axiscontainer container">
-                <span ng-repeat="serie in data" class="axis col-sm-4 col-xs-6">
-                    <div class="axispanel">
-                        <input type="checkbox" data-ng-model="serie.visible" data-ng-change="createChart()"/><b style="color: {{ serie.color }}">&nbsp;{{ serie.name }}</b>
-                        <div ng-model="serie.type" bs-radio-group="bs-radio-group" ng-if="serie.visible" class="options">
-                            <input type="radio" value="line" ng-model="serie.type" ng-change="redrawChart($index, serie.type)"/>&nbsp;Line<br/>
-                            <input type="radio" value="spline" ng-model="serie.type" ng-change="redrawChart($index, serie.type)"/>&nbsp;Spline<br/>
-                            <input type="radio" value="areaspline" ng-model="serie.type" ng-change="redrawChart($index, serie.type)"/>&nbsp;Area Spline<br/>
-							<hr/>
-                            <input type="checkbox" value="average" ng-model="avgData[$index].visible" ng-change="createChart()"/>&nbsp;Moving average<br/>
-                        </div>
-                    </div>
-                </span>
-			</div>-->
+			<div class="container chartContainer">
+				<chart-block class="chart-block" data-charts="charts" data-ng-repeat="chart in dataReady" data-chart-block="chart" data-index="$index" data-min-x="{{ minX }}" data-max-x="{{ maxX }}">
+				</chart-block>
+			</div>
         </div>
         <footer>
         <div class="container"> <small>JesusAndPals 2015</small></div>
@@ -46,4 +35,5 @@
     <script src="http://code.highcharts.com/highcharts.src.js"></script>
     <script src="../scripts/services/listService.js"></script>
     <script src="../scripts/controllers/dprocessor.js"></script>
+    <script src="../scripts/directives/chartBlock.js"></script>
 </html>

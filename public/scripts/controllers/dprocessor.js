@@ -2,8 +2,9 @@ var dprocess = angular.module("dprocess", ["mgcrea.ngStrap", "sharedServices"]);
 
 dprocess.controller("dprocessController", function ($scope, listService, $http, $alert) {
 	
-	$scope.chart = null;
+	$scope.charts = [];
 	$scope.data = null;
+	$scope.dataReady = null;
 	$scope.minX = null;
 	$scope.maxX = null;
 
@@ -13,108 +14,14 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 	});
 
 	$scope.createChart = function () {
-		//var data = $scope.filterData($scope.data);
-		var data = $scope.data;
-
-		//destroy previous charts
 		for (var i=Highcharts.charts.length-1; i>=0; i--) {
 			if (!Highcharts.charts[i]) {
 				continue;
 			}
 			Highcharts.charts[i].destroy();
 		}
-		angular.element("#chartContainer").empty();
-
-		//create new charts
-		data.forEach(function (entry) {
-			var chart = angular.element("<div class='chart'></div>");
-			angular.element("#chartContainer").append(chart);
-			chart.highcharts({
-				chart: {
-					//zoomType: "x",
-				},
-				legend: {
-					enabled: false
-				},
-				credits: {
-					enabled: false
-				},
-				title: {
-					text: entry.name + " [" + entry.tooltip.valueSuffix + "]",
-					align: "left",
-					style: {
-						fontSize: '14px'
-					}
-				},
-				plotOptions: {
-					series: {
-						allowPointSelect: true,
-						point: {
-							events: {
-								mouseOver: function (e) {
-									for (var i=0; i<Highcharts.charts.length; i++) {
-										var chart = Highcharts.charts[i];
-										if (!chart) {
-											continue;
-										}
-
-										var series = chart.series[0];
-										for (var j=0; j<series.data.length && series.data[j].x < this.x; j++) {
-										}
-
-										if (j < series.data.length) {
-											chart.tooltip.refresh(series.points[j]);
-											chart.xAxis[0].removePlotLine('crosshair');
-											chart.xAxis[0].addPlotLine({
-												id: 'crosshair',
-												color: 'rgba(100, 100, 100, 0.8)',
-												width: 1,
-												value: series.points[j].x,
-												zIndex: 3
-											});
-											var old = chart.hoverPoint;
-											if (old) {
-												old.setState();
-											}
-											series.data[j].setState("hover");
-											chart.hoverPoint = series.data[j];
-										}
-									}
-								}
-							}
-						}
-					}
-				},
-				tooltip: {
-					valueDecimals: 2,
-					positioner: function () {
-						return { x: this.chart.chartWidth - this.label.width, y: -1 };
-					},
-					shadow: false,
-					borderWidth: 0,
-					backgroundColor: 'rgba(255, 255, 255, 0.0)'
-				},
-				xAxis: {
-					type: "datetime",
-					minRange: 24*3600*1000,
-					tickInterval: 7*24*3600*1000,
-					gridLineWidth: 1,
-					min: $scope.minX,
-					max: $scope.maxX,
-					dateTimeLabelFormats: {
-						day: "%d.%m",
-						week: "%d.%m",
-						month: "%d.%m"
-					}
-				},
-				yAxis: [{
-					title: {
-						text: null,
-					}
-				}],
-				series: [entry]
-			});
-		});
+		angular.element(".chartContainer").css("height", $scope.data.length * 254 + 20);
+		$scope.dataReady = $scope.data;
 	};
 
 	$scope.getDataSlot = function (entry) {
@@ -192,17 +99,4 @@ dprocess.controller("dprocessController", function ($scope, listService, $http, 
 		});
 	};
 
-//	$scope.synchronizeChartPosition = function (e) {
-//		for (var i=0; i<Highcharts.charts.length; i++) {
-//			var chart = Highcharts.charts[i];
-//			e = chart.pointer.normalize(e);
-//			var point = chart.series[0].searchPoint(e, true);
-//
-//			if (point) {
-//				point.onMouseOver();
-//				chart.tooltip.refresh(point);
-//				chart.xAxis[0].drawCrosshair(e, point);
-//			}
-//		}
-//	}
 });
