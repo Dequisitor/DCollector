@@ -101,11 +101,11 @@ footer {
 .entry .row .contents input.formula {
     min-width: 160px;
 }
-.entry .row .contents .diff {
+.entry .diff {
 	text-align: right;
 	color: orange;
 	font-weight: bold;
-	padding-right: 10px;
+	padding: 0 10px;
 }
 .entry:nth-child(odd) {
     background-color: #ccc;

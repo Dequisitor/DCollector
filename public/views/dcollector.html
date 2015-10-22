@@ -36,6 +36,7 @@
                     </div>
                     <div data-ng-if="entry.formula != null">
                         <label class="name">{{ entry.name }}</label>
+						<span class="diff">{{entry.diff}}</span>
                     </div>
                     <div data-ng-if="entry.formula != null" class="row"><span data-ng-click="evaluateFormula(entry)"><span class="glyphicon glyphicon-refresh"></span></span>
                         <div class="contents">

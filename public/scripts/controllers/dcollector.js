@@ -56,6 +56,7 @@ main.controller('mainController', function ($scope, listService, $http, $animate
 		};
 
 		entry.value = Math.round($scope.$eval(newFormula)* 100) / 100;
+		$scope.showChanges(entry);
 	};
 
 	$scope.showChanges = function (entry) {
@@ -71,7 +72,9 @@ main.controller('mainController', function ($scope, listService, $http, $animate
 		if (!!oldEntry) {
 			var diff = Math.round((entry.value - oldEntry.value) * 100);
 			var sign = diff > 0 ? "+" : "";
-			entry.diff = sign + diff/100;
+			if (diff != 0) {
+				entry.diff = sign + diff/100;
+			}
 		}
 	};
 
