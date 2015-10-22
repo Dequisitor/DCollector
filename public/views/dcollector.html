@@ -28,7 +28,8 @@
                     <div data-ng-if="entry.formula == null" class="row">
                         <label class="name">{{ entry.name }}</label>
                         <div class="contents">
-                            <input data-ng-if="entry.unit != null" type="number" ng-model="entry.value" click-select="click-select" class="value"/>
+							<span data-ng-if="entry.unit != null" class="diff">{{entry.diff}}</span>
+                            <input data-ng-if="entry.unit != null" type="number" ng-model="entry.value" click-select="click-select" class="value" data-ng-change="showChanges(entry)"/>
                             <input data-ng-if="entry.unit == null" type="text" ng-model="entry.value" click-select="click-select" class="value"/>
                             <label class="unit">{{ entry.unit }}</label><span data-ng-click="removeEntryFromList(entry)" class="remove glyphicon glyphicon-remove"></span>
                         </div>

@@ -8,6 +8,7 @@ main.controller('mainController', function ($scope, listService, $http, $animate
 	listService.getLatestEntries(function (files, entries) {
 		$scope.availableFiles = files;
 		$scope.allEntries = entries;
+		$scope.oldEntries = jQuery.extend(true, {}, entries); //create a copy of the array
 	});
 
 	//alerts
@@ -16,7 +17,7 @@ main.controller('mainController', function ($scope, listService, $http, $animate
 		content: 'Data saved successfully',
 		type: 'success',
 		container: '#alert-container',
-		duration: 2,
+		duration: 3,
 		show: false
 	});
 	$scope.sendError = $alert({
@@ -25,7 +26,7 @@ main.controller('mainController', function ($scope, listService, $http, $animate
 		type: 'danger',
 		placement: 'top',
 		container: '#alert-container',
-		duration: 2,
+		duration: 3,
 		show: false
 	});
 
@@ -55,6 +56,23 @@ main.controller('mainController', function ($scope, listService, $http, $animate
 		};
 
 		entry.value = Math.round($scope.$eval(newFormula)* 100) / 100;
+	};
+
+	$scope.showChanges = function (entry) {
+		var oldEntries = $scope.oldEntries[$scope.selectedFile].data;
+		var oldEntry = null;
+		for (var i=0; i<oldEntries.length; i++) {
+			if (oldEntries[i].name == entry.name) {
+				oldEntry = oldEntries[i];
+				break;
+			}
+		}
+
+		if (!!oldEntry) {
+			var diff = Math.round((entry.value - oldEntry.value) * 100);
+			var sign = diff > 0 ? "+" : "";
+			entry.diff = sign + diff/100;
+		}
 	};
 
 	$scope.changeFile = function () {
