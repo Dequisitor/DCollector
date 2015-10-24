@@ -32,7 +32,11 @@ main.controller('mainController', function ($scope, listService, $http, $animate
 
 	//send data to server
 	$scope.sendData = function () {
-		$http.post('/dcollector/saveData', { file: $scope.selectedFile, data: $scope.entries}).
+		var postData = $scope.entries.slice();
+		for (var i=0; i<postData.length; i++) {
+			postData[i].diff = undefined;
+		}
+		$http.post('/dcollector/saveData', { file: $scope.selectedFile, data: postData}).
 			success(function (data, status, header, config) {
 				$scope.sendOK.show();
 			}).
@@ -74,6 +78,8 @@ main.controller('mainController', function ($scope, listService, $http, $animate
 			var sign = diff > 0 ? "+" : "";
 			if (diff != 0) {
 				entry.diff = sign + diff/100;
+			} else {
+				entry.diff = "";
 			}
 		}
 	};
