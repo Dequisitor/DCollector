@@ -1,39 +1,40 @@
 <html>
-    <head>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css"/>
-        <link rel="stylesheet" href="../stylesheets/main.css"/>
-        <link rel="stylesheet" href="../stylesheets/popup.css"/>
-        <link rel="icon" type="image/png" href="../content/images/favicon.png"/>
-    </head>
-    <body data-ng-app="dprocess" data-ng-controller="dprocessController" id="dprocess">
-        <nav bs-navbar="bs-navbar" class="navbar navbar-inverse">
-        <div class="navbar-brand">Data Processor</div>
-        </nav>
-        <div class="jumbotron">
-            <div class="container"><a href="/dcollector" class="btn btn-warning link pull-left">Go to DCollector</a>
-                <div class="file-selector">
-                    <button type="button" data-ng-model="selectedFile" data-bs-options="file for file in availableFiles" data-bs-select="data-bs-select" ng-change="changeFile()" placeholder="Choose file..." class="btn btn-default pull-right dropdown-toggle">Action<span class="caret"></span></button>
-                </div>
-            </div>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<meta name="mobile-web-app-capable" content="yes">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css"/>
+		<link rel="stylesheet" href="../stylesheets/main.css"/>
+		<link rel="stylesheet" href="../stylesheets/popup.css"/>
+		<link rel="icon" type="image/png" href="../content/images/favicon.png"/>
+	</head>
+	<body data-ng-app="dprocess" data-ng-controller="dprocessController" id="dprocess">
+		<nav bs-navbar="bs-navbar" class="navbar navbar-inverse">
+		<div class="navbar-brand">Data Processor</div>
+		</nav>
+		<div class="jumbotron">
+			<div class="container"><a href="/dcollector" class="btn btn-warning link pull-left">Go to DCollector</a>
+				<div class="file-selector">
+					<button type="button" data-ng-model="selectedFile" data-bs-options="file for file in availableFiles" data-bs-select="data-bs-select" ng-change="changeFile()" placeholder="Choose file..." class="btn btn-default pull-right dropdown-toggle">Action<span class="caret"></span></button>
+				</div>
+			</div>
 			<div class="container chartContainer">
 				<chart-block class="chart-block" data-charts="charts" data-ng-repeat="chart in dataReady" data-chart-block="chart" data-index="$index" data-min-x="{{ minX }}" data-max-x="{{ maxX }}">
 				</chart-block>
 			</div>
-        </div>
-        <footer>
-        <div class="container"> <small>JesusAndPals 2015</small></div>
-        </footer>
-    </body>
-    <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.2.1/angular-strap.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.2.1/angular-strap.tpl.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-animate.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-cookies.js"></script>
-    <script src="http://code.highcharts.com/highcharts.src.js"></script>
-    <script src="../scripts/services/listService.js"></script>
-    <script src="../scripts/controllers/dprocessor.js"></script>
-    <script src="../scripts/directives/chartBlock.js"></script>
+		</div>
+		<footer>
+		<div class="container"> <small>JesusAndPals 2015</small></div>
+		</footer>
+	</body>
+	<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.2.1/angular-strap.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.2.1/angular-strap.tpl.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-animate.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-cookies.js"></script>
+	<script src="http://code.highcharts.com/highcharts.src.js"></script>
+	<script src="../scripts/services/listService.js"></script>
+	<script src="../scripts/controllers/dprocessor.js"></script>
+	<script src="../scripts/directives/chartBlock.js"></script>
 </html>
