@@ -82,6 +82,14 @@ main.controller('mainController', function ($scope, listService, $http, $animate
 				entry.diff = "";
 			}
 		}
+
+		if (entry.formula == null) {
+			$scope.entries.forEach(function (entry) {
+				if (entry.formula != null) {
+					$scope.evaluateFormula(entry);
+				}
+			});
+		};
 	};
 
 	$scope.changeFile = function () {
