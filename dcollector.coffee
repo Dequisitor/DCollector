@@ -11,20 +11,26 @@ router.get '*', (req, res, next) ->
 	fs.stat './DCollector/public/' + path, (err, stat) ->
 		if err
 			next()
+			return
 		else
 			res.sendFile path, {root: './DCollector/public'}
+			return
 
 router.get '/getlatest', (req, res) ->
 	fs.readdir __dirname + '/public/data/', (err, files) ->
-		res.send err if err
+		if err
+			res.send err
+			return
 
 		result = []
-		for file in files
-			raw = fs.readFileSync __dirname + '/public/data/' + file, 'utf-8'
-			json = JSON.parse raw
-			result.push {fileName: file, data: json[json.length-1]}
+		if files? and files.length>0
+			for file in files
+				raw = fs.readFileSync __dirname + '/public/data/' + file, 'utf-8'
+				json = JSON.parse raw
+				result.push {fileName: file, data: json[json.length-1]}
 
 		res.send result
+		return
 
 parser = bp.json()
 router.post '/savedata', parser, (req, res) ->
