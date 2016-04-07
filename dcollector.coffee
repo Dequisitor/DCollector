@@ -3,6 +3,9 @@ bp = require 'body-parser'
 fs = require 'fs'
 router = express.Router()
 
+publicDir = __dirname+'/public/'
+dataDir = publicDir+'data/'
+
 router.get '/', (req, res) ->
 	res.redirect '/dcollector/views/dcollector.html'
 
@@ -11,48 +14,45 @@ router.get '*', (req, res, next) ->
 	fs.stat './DCollector/public/' + path, (err, stat) ->
 		if err
 			next()
-			return
 		else
 			res.sendFile path, {root: './DCollector/public'}
-			return
 
 router.get '/getlatest', (req, res) ->
-	fs.readdir __dirname + '/public/data/', (err, files) ->
+	fs.readdir dataDir, (err, files) ->
 		if err
 			res.send err
-			return
 
 		result = []
 		if files? and files.length>0
 			for file in files
-				raw = fs.readFileSync __dirname + '/public/data/' + file, 'utf-8'
+				raw = fs.readFileSync dataDir+file, 'utf-8'
 				json = JSON.parse raw
 				result.push {fileName: file, data: json[json.length-1]}
 
 		res.send result
-		return
 
 parser = bp.json()
 router.post '/savedata', parser, (req, res) ->
-	file = req.body.file
-	data = req.body.data
+	file = dataDir + req.body.file
+	obj = []
+	data = {
+		timeStamp: new Date(),
+		data: req.body.data
+	}
 
-	fs.readFile __dirname + '/public/data/' + file, (err, fileData) ->
+	fs.access file, fs.F_OK, (err) =>
 		if err
-			res.status(500).send 'error: can\'t read ' + file + ': ' + err
-			return
+			obj.push data
 		else
-			obj = JSON.parse fileData
-			obj.push {timeStamp: new Date(), data: data}
+			raw = fs.readFileSync file, 'utf-8'
+			obj = JSON.parse raw
+			obj.push data
 
-			fs.writeFile __dirname + '/public/data/' + file, JSON.stringify(obj), (err, file) ->
-				if err
-					res.status(500).send 'error: can\'t write ' + file + ': ' + err
-					return
-				else
-					res.send 'OK'
-					return
-			return
-	return
+		output = JSON.stringify obj
+		fs.writeFile file, output, (err) ->
+			if err
+				res.status(500).send 'error: can\'t write ' + req.body.file + ': ' + err
+			else
+				res.send 'OK'
 
 module.exports = router
