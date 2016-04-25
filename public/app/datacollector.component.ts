@@ -1,5 +1,7 @@
-import {Component} from 'angular2/core'
+import {Component, OnInit} from 'angular2/core'
 import {DataInput} from './data.component'
+import {Http} from 'angular2/http'
+import 'rxjs/Rx' //.map stuff
 
 @Component({
 	selector: 'data-collector',
@@ -7,40 +9,22 @@ import {DataInput} from './data.component'
 	directives: [DataInput]
 })
 export class DataCollector {
-	private entries:any
+	private entries: any[]
 
-	constructor() {
-		this.entries = [
-			{
-				name: "weight",
-				unit: "kg",
-				data: [
-					{
-						value: 75.3
-					},
-					{
-						value: 76.3
-					},
-					{
-						value: 74.8
-					}
-				]
-			},
-			{
-				name: "fat",
-				unit: "%",
-				data: [
-					{
-						value: 15.1
-					},
-					{
-						value: 14.9
-					},
-					{
-						value: 14.8
-					}
-				]
-			}
-		]
+	constructor(private _http: Http) {
+	}
+
+	private ngOnInit() {
+		this._http.get('getlatest')
+			.map(res => res.json())
+			.subscribe(
+				res => {
+					this.entries = res[2].data.data
+					console.log(this.entries)
+				},
+				error => {
+					this.entries = []
+				} //TODO: error message
+			)
 	}
 }
