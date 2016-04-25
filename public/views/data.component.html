@@ -4,7 +4,8 @@
 		<span class="fa fa-caret-down"></span>
 	</h3>
 	<div class="input-group">
-		<input type="number" class="form-control" placeholder="enter value">
+		<span class="input-group-addon">{{diff}}</span>
+		<input type="number" class="form-control" placeholder="enter value" [(ngModel)]="newValue" (change)="calculateDiff()">
 		<span class="input-group-addon">{{unit}}</span>
 	</div>
 </div>

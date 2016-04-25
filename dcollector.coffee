@@ -7,7 +7,7 @@ publicDir = __dirname+'/public/'
 dataDir = publicDir+'data/'
 
 router.get '/', (req, res) ->
-	res.sendFile publicDir+'/views/_layout.html'
+	res.sendFile publicDir + 'views/main.html'
 
 router.get '*', (req, res, next) ->
 	path = req.params[0]

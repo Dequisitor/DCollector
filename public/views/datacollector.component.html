@@ -6,12 +6,13 @@
 			<h3 class="panel-title">Data</h3>
 		</div>
 		<div class="panel-body">
-			<data-input></data-input>
-			<data-input></data-input>
+			<data-input *ngFor="#entry of entries" [dataEntry]="entry">
+				{{entry.name}}
+			</data-input>
 		</div>
 	</div>
 
-	<div class="panel panel-default">
+	<div class="panel panel-success">
 		<div class="panel-heading">
 			<h3 class="panel-title">Aggregates</h3>
 		</div>

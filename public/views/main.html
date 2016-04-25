@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<title>Data collector</title>
+		<base href="/dcollector/">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="bower_components/bootswatch/darkly/bootstrap.min.css">
+		<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="content/app.css">
+
+		<script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+		<script src="node_modules/systemjs/dist/system.src.js"></script>
+		<script src="node_modules/rxjs/bundles/Rx.js"></script>
+		<script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+		<script src="node_modules/angular2/bundles/router.dev.js"></script>
+		<script src="node_modules/angular2/bundles/http.dev.js"></script>
+
+		<script>
+			System.config({
+				packages: {
+					dist: {
+						format: 'register',
+						defaultExtension: 'js'
+					}
+				}
+			});
+			System.import('dist/main').then(null, console.error.bind(console));
+		</script>
+	</head>
+	<body>
+		<data-collector>Loading...</data-collector>
+	</body>
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+</html>
