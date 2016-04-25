@@ -1,0 +1,24 @@
+{
+	"name": "dcollector",
+	"version": "1.0.0",
+	"description": "",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"ntsc": "ntsc",
+		"ntsc:w": "ntsc -w"
+	},
+	"author": "Dequisitor",
+	"license": "ISC",
+	"dependencies": {
+		"angular2": "^2.0.0-beta.15",
+		"es6-shim": "^0.35.0",
+		"reflect-metadata": "^0.1.3",
+		"rxjs": "^5.0.0-beta.6",
+		"systemjs": "^0.19.26",
+		"zone.js": "^0.6.12"
+	},
+	"devDependencies": {
+		"ntypescript": "^1.201604220008.1",
+		"typings": "^0.8.1"
+	}
+}
