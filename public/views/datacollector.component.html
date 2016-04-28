@@ -1,26 +1,45 @@
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+				<span class="sr-only">Toggle nav</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand">
+				DataCollector
+			</a>
+		</div>
+		<div class="collapse navbar-collapse" id="navbar">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Input</a></li>
+				<li><a href="#">Queries</a></li>
+				<li><a href="#">Statistics</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<select class="form-control" title="select file">
+						<option value="1">what what</option>
+						<option value="2">in the butt</option>
+						<option value="3">yes</option>
+					</select>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
 <div class="container-fluid">
-	<h2>DataCollector</h2>
-
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h3 class="panel-title">Data</h3>
-		</div>
-		<div class="panel-body">
-			<data-input *ngFor="#entry of entries" [dataEntry]="entry">
-				{{entry.name}}
-			</data-input>
-		</div>
+	<data-input *ngFor="#entry of entries" [dataEntry]="entry">
+		{{entry.name}}
+	</data-input>
+	<div class="pull-right controls">
+		<a href="#" class="btn btn-lg btn-default">Reset</a>
+		<a href="#" class="btn btn-lg btn-primary">Save</a>
 	</div>
-
-	<div class="panel panel-success">
-		<div class="panel-heading">
-			<h3 class="panel-title">Aggregates</h3>
-		</div>
-		<div class="panel-body">
-			<div class="input-group">
-				formulas
-			</div>
-		</div>
-	</div>
-
 </div>
+
+<footer class="panel">
+	DCollector &copy; Jesus and Pals 2016
+</footer>

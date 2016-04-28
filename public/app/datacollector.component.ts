@@ -20,10 +20,10 @@ export class DataCollector {
 			.subscribe(
 				res => {
 					this.entries = res[2].data.data
-					console.log(this.entries)
 				},
 				error => {
 					this.entries = []
+					console.log("error: ", error)
 				} //TODO: error message
 			)
 	}

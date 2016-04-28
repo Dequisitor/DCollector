@@ -1,0 +1,159 @@
+diff --git a/public/app/datacollector.component.ts b/public/app/datacollector.component.ts
+index 222a572..eb8b587 100644
+--- a/public/app/datacollector.component.ts
++++ b/public/app/datacollector.component.ts
+@@ -20,10 +20,10 @@ export class DataCollector {
+ 			.subscribe(
+ 				res => {
+ 					this.entries = res[2].data.data
+-					console.log(this.entries)
+ 				},
+ 				error => {
+ 					this.entries = []
++					console.log("error: ", error)
+ 				} //TODO: error message
+ 			)
+ 	}
+diff --git a/public/bower.json b/public/bower.json
+index 131d7dc..e08d79b 100644
+--- a/public/bower.json
++++ b/public/bower.json
+@@ -19,6 +19,7 @@
+   "dependencies": {
+     "bootstrap": "^3.3.6",
+     "bootswatch": "^3.3.6+1",
+-    "font-awesome": "^4.6.1"
++    "font-awesome": "^4.6.1",
++    "less": "^2.6.1"
+   }
+ }
+diff --git a/public/content/app.css b/public/content/app.css
+deleted file mode 100644
+index 39590de..0000000
+--- a/public/content/app.css
++++ /dev/null
+@@ -1,6 +0,0 @@
+-.good {
+-	color: green;
+-}
+-.bad {
+-	color: red;
+-}
+diff --git a/public/views/data.component.html b/public/views/data.component.html
+index 0f20392..b23776a 100644
+--- a/public/views/data.component.html
++++ b/public/views/data.component.html
+@@ -1,13 +1,17 @@
+ <div class="">
+-	<h3>
+-		{{name}}
++	<h4>
+ 		<span class="fa fa-caret-down"></span>
++		{{name}}
+ 		<span class="pull-right" [class.good]="diff > 0" [class.bad]="diff < 0">
+ 			{{diff}}
+ 		</span>
+-	</h3>
++	</h4>
+ 	<div class="input-group">
+ 		<input type="number" class="form-control" placeholder="enter value" [(ngModel)]="newValue" (ngModelChange)="calculateDiff()">
+-		<span class="input-group-addon unit">{{unit}}</span>
++		<span class="input-group-addon">
++			<div class="unit">
++				{{unit}}
++			</div>
++		</span>
+ 	</div>
+ </div>
+diff --git a/public/views/datacollector.component.html b/public/views/datacollector.component.html
+index 4c6de09..772a0b5 100644
+--- a/public/views/datacollector.component.html
++++ b/public/views/datacollector.component.html
+@@ -1,26 +1,45 @@
+-<div class="container-fluid">
+-	<h2>DataCollector</h2>
+-
+-	<div class="panel panel-primary">
+-		<div class="panel-heading">
+-			<h3 class="panel-title">Data</h3>
++<nav class="navbar navbar-default">
++	<div class="container-fluid">
++		<div class="navbar-header">
++			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
++				<span class="sr-only">Toggle nav</span>
++				<span class="icon-bar"></span>
++				<span class="icon-bar"></span>
++				<span class="icon-bar"></span>
++			</button>
++			<a class="navbar-brand">
++				DataCollector
++			</a>
+ 		</div>
+-		<div class="panel-body">
+-			<data-input *ngFor="#entry of entries" [dataEntry]="entry">
+-				{{entry.name}}
+-			</data-input>
++		<div class="collapse navbar-collapse" id="navbar">
++			<ul class="nav navbar-nav">
++				<li class="active"><a href="#">Input</a></li>
++				<li><a href="#">Queries</a></li>
++				<li><a href="#">Statistics</a></li>
++			</ul>
++			<ul class="nav navbar-nav navbar-right">
++				<li>
++					<select class="form-control" title="select file">
++						<option value="1">what what</option>
++						<option value="2">in the butt</option>
++						<option value="3">yes</option>
++					</select>
++				</li>
++			</ul>
+ 		</div>
+ 	</div>
++</nav>
+ 
+-	<div class="panel panel-success">
+-		<div class="panel-heading">
+-			<h3 class="panel-title">Aggregates</h3>
+-		</div>
+-		<div class="panel-body">
+-			<div class="input-group">
+-				formulas
+-			</div>
+-		</div>
++<div class="container-fluid">
++	<data-input *ngFor="#entry of entries" [dataEntry]="entry">
++		{{entry.name}}
++	</data-input>
++	<div class="pull-right controls">
++		<a href="#" class="btn btn-lg btn-default">Reset</a>
++		<a href="#" class="btn btn-lg btn-primary">Save</a>
+ 	</div>
+-
+ </div>
++
++<footer class="panel">
++	DCollector &copy; Jesus and Pals 2016
++</footer>
+diff --git a/public/views/main.html b/public/views/main.html
+index d13a06d..bf4a2c7 100644
+--- a/public/views/main.html
++++ b/public/views/main.html
+@@ -4,9 +4,9 @@
+ 		<base href="/dcollector/">
+ 		<meta name="viewport" content="width=device-width,initial-scale=1">
+ 		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+-		<link rel="stylesheet" href="bower_components/bootswatch/darkly/bootstrap.min.css">
++		<link rel="stylesheet" href="bower_components/bootswatch/superhero/bootstrap.min.css">
+ 		<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+-		<link rel="stylesheet" href="content/app.css">
++		<link rel="stylesheet/less" href="content/app.less">
+ 
+ 		<script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+ 		<script src="node_modules/systemjs/dist/system.src.js"></script>
+@@ -32,4 +32,5 @@
+ 	</body>
+ 	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+ 	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
++	<script src="bower_components/less/dist/less.min.js"></script>
+ </html>
