@@ -19,7 +19,7 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<select class="form-control" title="select file" [(ngModel)]="selectedFile" (ngModelChange)="selectFile()">
+					<select class="form-control" [(ngModel)]="selectedFile" (ngModelChange)="selectFile()">
 						<option *ngFor="#file of files" [value]="file">
 							{{file}}
 						</option>
@@ -30,16 +30,27 @@
 	</div>
 </nav>
 
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="!!selectedFile">
 	<data-input *ngFor="#entry of entries" [dataEntry]="entry">
 		{{entry.name}}
 	</data-input>
+	<div class="">
+		<span class="text-success">Last updated: {{lastUpdate}}</span>
+	</div>
 	<div class="pull-right controls">
 		<a href="#" class="btn btn-lg btn-default">Reset</a>
 		<a href="#" class="btn btn-lg btn-primary">Save</a>
 	</div>
 </div>
+<div class="container-fluid" *ngIf="!selectedFile">
+	<label for="file-select">Please select a file</label>
+	<select name="file-select" class="form-control" [(ngModel)]="selectedFile" (ngModelChange)="selectFile()">
+		<option *ngFor="#file of files" [value]="file">
+			{{file}}
+		</option>
+	</select>
+</div>
 
 <footer class="panel">
-	DCollector &copy; Jesus and Pals 2016
+	DCollector &copy; Jesus&amp;Pals 2016
 </footer>

@@ -32,7 +32,7 @@ export class DataInput {
 	private calculateDiff() {
 		var tmp: number = this.newValue - this.value
 		if (tmp == 0) {
-			this.diff = ''
+			this.diff = ""
 		} else {
 			this.diff = (tmp>0 ? '+' : '') + tmp.toFixed(1)
 			this.good = (tmp>0) == this.isGood

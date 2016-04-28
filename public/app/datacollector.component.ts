@@ -13,9 +13,9 @@ export class DataCollector {
 	private entries: DataObject[]
 	private files: string[]
 	private selectedFile: string
+	private lastUpdate: number
 
 	constructor(private _http: Http) {
-		this.selectedFile = "Select file"
 	}
 
 	private ngOnInit() {
@@ -38,6 +38,7 @@ export class DataCollector {
 			.subscribe(
 				res => {
 					this.entries = res
+					this.lastUpdate = this.entries[0].data.splice(-1)[0].timeStamp
 				},
 				error => {
 					this.entries = []
