@@ -7,7 +7,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand">
+			<a class="navbar-brand" href="#">
 				DataCollector
 			</a>
 		</div>
@@ -19,36 +19,52 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<select class="form-control" [(ngModel)]="selectedFile" (ngModelChange)="selectFile()">
-						<option *ngFor="#file of files" [value]="file">
-							{{file}}
-						</option>
-					</select>
 				</li>
 			</ul>
 		</div>
 	</div>
 </nav>
 
-<div class="container-fluid" *ngIf="!!selectedFile">
-	<data-input *ngFor="#entry of entries" [dataEntry]="entry">
-		{{entry.name}}
-	</data-input>
-	<div class="">
-		<span class="text-success">Last updated: {{lastUpdate}}</span>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+
+			<div class="container-fluid welcome" *ngIf="!selectedFile">
+				<div>
+					<h2>Welcome</h2>
+					<hr/>
+					<h3>Please select a file</h3>
+				</div>
+			</div>
+			<div class="container-fluid" *ngIf="!!selectedFile">
+				<span>
+					Selected file
+				</span>
+				<span class="pull-right">
+					<span class="text-success">Last updated: {{lastUpdate}}</span>
+				</span>
+			</div>
+			<div class="container-fluid">
+				<select name="file-select" class="form-control" [(ngModel)]="selectedFile" (ngModelChange)="selectFile()" placeholder="titties">
+					<option *ngFor="#file of files" [value]="file">
+						{{file}}
+					</option>
+				</select>
+				<hr/>
+			</div>
+
+			<div class="container-fluid" *ngIf="!!selectedFile">
+				<data-input *ngFor="#entry of entries" [dataEntry]="entry">
+					{{entry.name}}
+				</data-input>
+				<hr/>
+				<div class="pull-right controls">
+					<a href="#" class="btn btn-lg btn-default">Reset</a>
+					<a href="#" class="btn btn-lg btn-primary">Save</a>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="pull-right controls">
-		<a href="#" class="btn btn-lg btn-default">Reset</a>
-		<a href="#" class="btn btn-lg btn-primary">Save</a>
-	</div>
-</div>
-<div class="container-fluid" *ngIf="!selectedFile">
-	<label for="file-select">Please select a file</label>
-	<select name="file-select" class="form-control" [(ngModel)]="selectedFile" (ngModelChange)="selectFile()">
-		<option *ngFor="#file of files" [value]="file">
-			{{file}}
-		</option>
-	</select>
 </div>
 
 <footer class="panel">
