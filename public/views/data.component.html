@@ -2,7 +2,7 @@
 	<h4>
 		<span class="fa fa-caret-down"></span>
 		{{name}}
-		<span class="pull-right" [class.good]="diff > 0" [class.bad]="diff < 0">
+		<span class="pull-right" [class.good]="good" [class.bad]="!good">
 			{{diff}}
 		</span>
 	</h4>

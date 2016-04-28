@@ -55,4 +55,20 @@ router.post '/savedata', parser, (req, res) ->
 			else
 				res.send 'OK'
 
+router.get '/data', (req, res) ->
+	fs.readdir dataDir, (err, files) ->
+		if err
+			res.status(500).send err
+		else
+			res.json files
+
+router.get '/data/:file', (req, res) ->
+	file = req.param.file
+	fs.readFile dataDir+file, 'utf-8', (err, data) ->
+		if err
+			res.status(500).send 'error: can\'t read file ' + file + ': ' + err
+		else
+			json = JSON.parse data
+			res.json json
+
 module.exports = router
