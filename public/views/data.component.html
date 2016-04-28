@@ -2,10 +2,12 @@
 	<h3>
 		{{name}}
 		<span class="fa fa-caret-down"></span>
+		<span class="pull-right" [class.good]="diff > 0" [class.bad]="diff < 0">
+			{{diff}}
+		</span>
 	</h3>
 	<div class="input-group">
-		<span class="input-group-addon diff">{{diff}}</span>
-		<input type="number" class="form-control" placeholder="enter value" [(ngModel)]="newValue" (change)="calculateDiff()">
+		<input type="number" class="form-control" placeholder="enter value" [(ngModel)]="newValue" (ngModelChange)="calculateDiff()">
 		<span class="input-group-addon unit">{{unit}}</span>
 	</div>
 </div>
