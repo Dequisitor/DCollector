@@ -27,7 +27,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+		<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
 
 			<div class="container-fluid welcome" *ngIf="!selectedFile">
 				<div>
@@ -40,9 +40,6 @@
 				<span>
 					Selected file
 				</span>
-				<span class="pull-right">
-					<span class="text-success">Last updated: {{lastUpdate}}</span>
-				</span>
 			</div>
 			<div class="container-fluid">
 				<select name="file-select" class="form-control" [(ngModel)]="selectedFile" (ngModelChange)="selectFile()">
@@ -50,10 +47,15 @@
 						{{file}}
 					</option>
 				</select>
-				<hr/>
+			</div>
+			<div class="container-fluid" *ngIf="!!selectedFile">
+				<span class="">
+					<span class="text-success">Last updated: {{lastUpdate}}</span>
+				</span>
 			</div>
 
 			<div class="container-fluid" *ngIf="!!selectedFile">
+				<hr/>
 				<data-input *ngFor="#entry of entries" [dataEntry]="entry">
 					{{entry.name}}
 				</data-input>

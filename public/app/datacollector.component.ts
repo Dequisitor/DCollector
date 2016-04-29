@@ -1,6 +1,5 @@
 import {Component, OnInit} from 'angular2/core'
 import {DataInput} from './data.component'
-import {DataObject} from './model/dataObject'
 import {Http} from 'angular2/http'
 import 'rxjs/Rx' //.map stuff
 
@@ -10,7 +9,7 @@ import 'rxjs/Rx' //.map stuff
 	directives: [DataInput]
 })
 export class DataCollector {
-	private entries: DataObject[]
+	private entries: any[]
 	private files: string[]
 	private selectedFile: string
 	private lastUpdate: number
@@ -37,11 +36,28 @@ export class DataCollector {
 			.map(res => res.json())
 			.subscribe(
 				res => {
-					this.entries = res
-					this.lastUpdate = this.entries[0].data.splice(-1)[0].timeStamp
+					this.entries = res.slice(-1)[0].data
+					this.lastUpdate = res.slice(-1)[0].timeStamp
+					console.log(this.entries)
 				},
 				error => {
-					this.entries = []
+					this.entries = null
+					console.log("error: ", error)
+				}
+			)
+	}
+
+	private submitData(): void {
+		var data = ""
+		this._http.post('data/'+this.selectedFile, data)
+			.map(res => res.json())
+			.subscribe(
+				res => {
+					this.entries = res.slice(-1)[0].data
+					this.lastUpdate = res.slice(-1)[0].timeStamp
+				},
+				error => {
+					this.entries = null
 					console.log("error: ", error)
 				}
 			)

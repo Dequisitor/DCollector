@@ -23,7 +23,7 @@ export class DataInput {
 		this.name = this.dataEntry.name
 		this.unit = this.dataEntry.unit
 		this.isGood = this.dataEntry.isGood
-		this.value = this.dataEntry.data.splice(-1)[0].value
+		this.value = this.dataEntry.value
 		this.newValue = this.value
 		this.diff = "";
 		this.good = true
