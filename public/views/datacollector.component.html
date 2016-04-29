@@ -45,7 +45,7 @@
 				</span>
 			</div>
 			<div class="container-fluid">
-				<select name="file-select" class="form-control" [(ngModel)]="selectedFile" (ngModelChange)="selectFile()" placeholder="titties">
+				<select name="file-select" class="form-control" [(ngModel)]="selectedFile" (ngModelChange)="selectFile()">
 					<option *ngFor="#file of files" [value]="file">
 						{{file}}
 					</option>
