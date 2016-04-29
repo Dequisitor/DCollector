@@ -9,13 +9,7 @@ dataDir = publicDir+'data/'
 router.get '/', (req, res) ->
 	res.sendFile publicDir + 'views/main.html'
 
-router.get '*', (req, res, next) ->
-	path = req.params[0]
-	fs.stat './DCollector/public/' + path, (err, stat) ->
-		if err
-			next()
-		else
-			res.sendFile path, {root: './DCollector/public'}
+router.use express.static(publicDir)
 
 router.get '/getlatest', (req, res) ->
 	fs.readdir dataDir, (err, files) ->
