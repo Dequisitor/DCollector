@@ -59,7 +59,6 @@ export class DataCollector {
 
 	private submitData(): void {
 		var data = JSON.stringify(this.entries)
-		console.log(data)
 		var headers = new Headers()
 		headers.append('Content-Type', 'application/json')
 		this._http.post('data/'+this.selectedFile, data, {headers: headers})

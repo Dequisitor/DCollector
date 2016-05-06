@@ -27,9 +27,8 @@ export class DataInput {
 			this.diff = ""
 		} else {
 			this.diff = (tmp>0 ? '+' : '') + tmp.toFixed(1)
-			this.good = (tmp>0) == this.isGood
+			this.good = (tmp>0) == this.entry.isGood
 		}
-		console.log(this.entry)
 		this.entryChange.emit(this.entry)
 	}
 }
