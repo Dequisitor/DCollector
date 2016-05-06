@@ -19,23 +19,12 @@ router.get '/data', (req, res) ->
 		else
 			res.json files
 
-###
-router.get '/data/:file', (req, res) ->
-	file = req.params.file
-	fs.readFile dataDir+file, 'utf-8', (err, data) ->
-		if err
-			res.status(500).send 'error: can\'t read file ' + file + ': ' + err
-		else
-			json = JSON.parse data
-			res.json json[-1]
-###
-
 router.post '/data/:file', (req, res) ->
 	file = dataDir+req.params.file
 	obj = []
 	data = {
 		timeStamp: new Date(),
-		data: req.body.data
+		data: req.body
 	}
 
 	#if file exists append, if not create
@@ -52,6 +41,6 @@ router.post '/data/:file', (req, res) ->
 			if err
 				res.status(500).send 'error: can\'t write ' + req.body.file + ': ' + err
 			else
-				res.send 'OK'
+				res.sendFile file
 
 module.exports = router

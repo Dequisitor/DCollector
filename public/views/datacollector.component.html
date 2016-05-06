@@ -56,13 +56,13 @@
 
 			<div class="container-fluid" *ngIf="!!selectedFile">
 				<hr/>
-				<data-input *ngFor="#entry of entries" [dataEntry]="entry">
+				<data-input *ngFor="#entry of entries; #i=index" [(entry)]="entries[i]">
 					{{entry.name}}
 				</data-input>
 				<hr/>
 				<div class="pull-right controls">
-					<a href="#" class="btn btn-lg btn-default">Reset</a>
-					<a href="#" class="btn btn-lg btn-primary">Save</a>
+					<a class="btn btn-lg btn-default">Reset</a>
+					<a class="btn btn-lg btn-primary" (click)="submitData()">Save</a>
 				</div>
 			</div>
 		</div>

@@ -1,16 +1,16 @@
 <div class="">
 	<h4>
 		<span class="fa fa-caret-down"></span>
-		{{name}}
+		{{entry.name}}
 		<span class="pull-right" [class.good]="good" [class.bad]="!good">
 			{{diff}}
 		</span>
 	</h4>
 	<div class="input-group">
-		<input type="number" class="form-control" placeholder="enter value" [(ngModel)]="newValue" (ngModelChange)="calculateDiff()">
+		<input type="number" class="form-control" placeholder="enter value" [(ngModel)]="entry.value" (ngModelChange)="calculateDiff()">
 		<span class="input-group-addon">
 			<div class="unit">
-				{{unit}}
+				{{entry.unit}}
 			</div>
 		</span>
 	</div>

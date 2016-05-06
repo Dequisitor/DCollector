@@ -1,7 +1,18 @@
 import {Component, OnInit} from 'angular2/core'
 import {DataInput} from './data.component'
-import {Http} from 'angular2/http'
+import {Http, Headers} from 'angular2/http'
 import 'rxjs/Rx' //.map stuff
+
+class EntryData {
+	public value: number
+	public name: string
+	public formula: string
+	public unit: string
+}
+class Entry {
+	public timeStamp: string
+	public data: EntryData
+}
 
 @Component({
 	selector: 'data-collector',
@@ -9,7 +20,7 @@ import 'rxjs/Rx' //.map stuff
 	directives: [DataInput]
 })
 export class DataCollector {
-	private entries: any[]
+	private entries: Entry[]
 	private files: string[]
 	private selectedFile: string
 	private lastUpdate: number
@@ -38,7 +49,6 @@ export class DataCollector {
 				res => {
 					this.entries = res.slice(-1)[0].data
 					this.lastUpdate = res.slice(-1)[0].timeStamp
-					console.log(this.entries)
 				},
 				error => {
 					this.entries = null
@@ -48,8 +58,11 @@ export class DataCollector {
 	}
 
 	private submitData(): void {
-		var data = ""
-		this._http.post('data/'+this.selectedFile, data)
+		var data = JSON.stringify(this.entries)
+		console.log(data)
+		var headers = new Headers()
+		headers.append('Content-Type', 'application/json')
+		this._http.post('data/'+this.selectedFile, data, {headers: headers})
 			.map(res => res.json())
 			.subscribe(
 				res => {
