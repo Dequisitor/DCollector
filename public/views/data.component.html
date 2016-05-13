@@ -1,7 +1,12 @@
-<div class="">
-	<h4>
-		<span class="fa fa-caret-down"></span>
-		{{entry.name}}
+<div class="entry">
+	<h4 (click)="showMenu=!showMenu" class="head">
+		<span class="fa fa-caret-down" *ngIf="!showMenu"></span>
+		<span class="fa fa-caret-right" *ngIf="showMenu"></span>
+		<span class="name">{{entry.name}}</span>
+		<span class="menu" *ngIf="showMenu">
+			<span class="fa fa-edit"></span>
+			<span class="fa fa-remove"></span>
+		</span>
 		<span class="pull-right" [class.good]="good" [class.bad]="!good">
 			{{diff}}
 		</span>

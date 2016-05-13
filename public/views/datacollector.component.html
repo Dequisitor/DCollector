@@ -55,7 +55,7 @@
 			</div>
 
 			<div class="container-fluid" *ngIf="!!selectedFile">
-				<hr/>
+				<hr #scrollToMe />
 				<data-input *ngFor="#entry of entries; #i=index" [(entry)]="entries[i]">
 					{{entry.name}}
 				</data-input>

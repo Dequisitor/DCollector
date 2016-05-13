@@ -11,8 +11,10 @@ export class DataInput {
 	private oldValue: number
 	private diff: string
 	private good: boolean
+	private showMenu: boolean
 
 	constructor() {
+		this.showMenu = false
 	}
 
 	private ngOnInit() {

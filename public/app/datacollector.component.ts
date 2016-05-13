@@ -23,7 +23,7 @@ export class DataCollector {
 	private entries: Entry[]
 	private files: string[]
 	private selectedFile: string
-	private lastUpdate: number
+	private lastUpdate: string
 
 	constructor(private _http: Http) {
 	}
@@ -48,7 +48,8 @@ export class DataCollector {
 			.subscribe(
 				res => {
 					this.entries = res.slice(-1)[0].data
-					this.lastUpdate = res.slice(-1)[0].timeStamp
+					var date: Date = new Date(Date.parse(res.slice(-1)[0].timeStamp))
+					this.lastUpdate = date.toLocaleTimeString("en-gb", {year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'})
 				},
 				error => {
 					this.entries = null

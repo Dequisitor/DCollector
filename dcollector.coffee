@@ -36,7 +36,7 @@ router.post '/data/:file', (req, res) ->
 			obj = JSON.parse raw
 			obj.push data
 
-		output = JSON.stringify obj
+		output = JSON.stringify obj, null, 2
 		fs.writeFile file, output, (err) ->
 			if err
 				res.status(500).send 'error: can\'t write ' + req.body.file + ': ' + err
